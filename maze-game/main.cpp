@@ -2,51 +2,84 @@
 #include <GL/glut.h>
 #include <stdio.h>
 
-// ================== CAMERA ==================
+// ============================================================
+// Camera
+// ============================================================
 float angle = 0.0, deltaAngle = 0.0, ratio;
 float x = 0.0f, y = 1.75f, z = 15.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
 
+int lastTime = 0;
+float deltaTime = 0.0f;
+
 int h, w;
 
-// ================== MOVEMENT ==================
 int moveFB = 0; // forward/back
 int moveLR = 0; // strafe
 
-// ================== COLLISION ==================
+// ======= Rotasi =======
+void orientMe(float ang)
+{
+    lx = sin(ang);
+    lz = -cos(ang);
+}
+
+// ======= Set view matrix =======
+void applyCamera()
+{
+    gluLookAt(
+        x, y, z,
+        x + lx, y + ly, z + lz,
+        0.0f, 1.0f, 0.0f
+    );
+}
+
+// ============================================================
+// Collosion
+// ============================================================
+
 typedef struct {
     float minX, maxX;
     float minZ, maxZ;
 } Box;
 
-Box walls[50];
-int wallCount = 0;
+#define MAX_WALLS 200
+Box walls[MAX_WALLS];
+int  wallCount = 0;
 
-float radius = 0.5f;
+float playerRadius = 0.4f;
 
-// ================== TAMBAH WALL ==================
-void addWall(float px, float pz, float panjang, float lebar)
+void resetWalls()
 {
-    float halfX = panjang / 2.0f;
-    float halfZ = lebar / 2.0f;
+    wallCount = 0;
+}
 
-    walls[wallCount].minX = px - halfX;
-    walls[wallCount].maxX = px + halfX;
-    walls[wallCount].minZ = pz - halfZ;
-    walls[wallCount].maxZ = pz + halfZ;
+// ======= Tambah dinding berdasarkan titik awal dan akhir =======
+void addWallFromPoints(float x1, float z1, float x2, float z2)
+{
+    if (wallCount >= MAX_WALLS) return;
 
+    float minX = x1 < x2 ? x1 : x2;
+    float maxX = x1 > x2 ? x1 : x2;
+    float minZ = z1 < z2 ? z1 : z2;
+    float maxZ = z1 > z2 ? z1 : z2;
+
+    walls[wallCount].minX = minX;
+    walls[wallCount].maxX = maxX;
+    walls[wallCount].minZ = minZ;
+    walls[wallCount].maxZ = maxZ;
     wallCount++;
 }
 
-// ================== CEK COLLISION ==================
+// ======= Cek collision =======
 int checkCollision(float nextX, float nextZ)
 {
     for (int i = 0; i < wallCount; i++)
     {
-        if (nextX + radius > walls[i].minX &&
-            nextX - radius < walls[i].maxX &&
-            nextZ + radius > walls[i].minZ &&
-            nextZ - radius < walls[i].maxZ)
+        if (nextX + playerRadius > walls[i].minX &&
+            nextX - playerRadius < walls[i].maxX &&
+            nextZ + playerRadius > walls[i].minZ &&
+            nextZ - playerRadius < walls[i].maxZ)
         {
             return 1;
         }
@@ -54,10 +87,24 @@ int checkCollision(float nextX, float nextZ)
     return 0;
 }
 
-// ================== GERAK MAJU ==================
+// ============================================================
+// Movement
+// ============================================================
+
+int sprint = 0;
+
+float velocityY = 0.0f;
+int isJumping = 0;
+
+const float gravity = 9.8f;
+const float jumpPower = 3.0f;
+const float groundY = 1.75f;
+
+// ======= Maju / mundur =======
 void moveMeFlat(int i)
 {
-    float speed = 0.02f;
+    float baseSpeed = sprint ? 8.0f : 5.0f;
+    float speed = baseSpeed * deltaTime;
 
     float nextX = x + i * lx * speed;
     float nextZ = z + i * lz * speed;
@@ -66,10 +113,11 @@ void moveMeFlat(int i)
     if (!checkCollision(x, nextZ)) z = nextZ;
 }
 
-// ================== STRAFE ==================
+// ======= Strafe =======
 void strafeMe(int i)
 {
-    float speed = 0.01f;
+    float baseSpeed = sprint ? 7.0f : 4.0f;
+    float speed = baseSpeed * deltaTime;
 
     float nextX = x + i * lz * speed;
     float nextZ = z - i * lx * speed;
@@ -78,14 +126,7 @@ void strafeMe(int i)
     if (!checkCollision(x, nextZ)) z = nextZ;
 }
 
-// ================== ROTASI ==================
-void orientMe(float ang)
-{
-    lx = sin(ang);
-    lz = -cos(ang);
-}
-
-// ================== RESHAPE ==================
+// ======= Reshape =======
 void Reshape(int w1, int h1)
 {
     if (h1 == 0) h1 = 1;
@@ -101,6 +142,109 @@ void Reshape(int w1, int h1)
 
     glMatrixMode(GL_MODELVIEW);
 }
+
+// ======= Dipanggil tiap frame =======
+void updateCamera()
+{
+    int currentTime = glutGet(GLUT_ELAPSED_TIME);
+    deltaTime = (currentTime - lastTime) / 1000.0f;
+    lastTime = currentTime;
+
+    angle += deltaAngle * deltaTime;
+    orientMe(angle);
+
+    if (moveFB) moveMeFlat(moveFB);
+    if (moveLR) strafeMe(moveLR);
+
+    // jump physics
+    if (isJumping)
+    {
+        velocityY -= gravity * deltaTime;
+        y += velocityY * deltaTime;
+
+        if (y <= groundY)
+        {
+            y = groundY;
+            velocityY = 0;
+            isJumping = 0;
+        }
+    }
+}
+
+// ======= Input keyboard =======
+void pressKey(int key, int xx, int yy)
+{
+    switch (key)
+    {
+        case GLUT_KEY_LEFT: deltaAngle = -2.0f; break;
+        case GLUT_KEY_RIGHT: deltaAngle = 2.0f; break;
+    }
+}
+
+void releaseKey(int key, int xx, int yy)
+{
+    switch (key)
+    {
+        case GLUT_KEY_LEFT:
+        case GLUT_KEY_RIGHT: deltaAngle = 0.0f; break;
+    }
+}
+
+void keyboard(unsigned char key, int xx, int yy)
+{
+    switch (key)
+    {
+        case 'w': case 'W': moveFB =  2; break;
+        case 's': case 'S': moveFB = -2; break;
+        case 'a': case 'A': moveLR =  2; break;
+        case 'd': case 'D': moveLR = -2; break;
+        
+        case ' ':
+            if (!isJumping)
+            {
+                isJumping = 1;
+                velocityY = jumpPower;
+            }
+            break;
+    }
+}
+
+void keyboardUp(unsigned char key, int xx, int yy)
+{
+    switch (key)
+    {
+        case 'w': case 'W':
+        case 's': case 'S': moveFB = 0; break;
+        case 'a': case 'A':
+        case 'd': case 'D': moveLR = 0; break;
+    }
+}
+
+void keyboardSpecial()
+{
+    int mod = glutGetModifiers();
+
+    if (mod & GLUT_ACTIVE_SHIFT)
+        sprint = 1;
+    else
+        sprint = 0;
+}
+
+// ============================================================
+// Geometri
+// ============================================================
+
+// ================== WARNA ==================
+typedef struct {
+    float r, g, b;
+} Color;
+
+Color merah = {1.0f, 0.0f, 0.0f};
+Color hijau = {0.0f, 1.0f, 0.0f};
+Color biru  = {0.0f, 0.0f, 1.0f};
+Color putih = {1.0f, 1.0f, 1.0f};
+Color abu   = {0.5f, 0.5f, 0.5f};
+Color kuning= {1.0f, 1.0f, 0.0f};
 
 // ================== GRID ==================
 void Grid()
@@ -120,169 +264,119 @@ void Grid()
 }
 
 // ================== BALOK ==================
-void Balok(float px, float py, float pz, float panjang, float tinggi, float lebar)
+static void _drawBalokFaces(
+    float x1, float y1, float z1,
+    float x2, float y2, float z2)
 {
-    float x = panjang / 2.0f;
-    float y = tinggi / 2.0f;
-    float z = lebar / 2.0f;
-
-    glPushMatrix();
-    glTranslatef(px, py, pz);
+    // Pastikan urutan min/max benar
+    float minX = x1 < x2 ? x1 : x2;
+    float maxX = x1 > x2 ? x1 : x2;
+    float minY = y1 < y2 ? y1 : y2;
+    float maxY = y1 > y2 ? y1 : y2;
+    float minZ = z1 < z2 ? z1 : z2;
+    float maxZ = z1 > z2 ? z1 : z2;
 
     glBegin(GL_QUADS);
 
-    // DEPAN
+    // DEPAN (+Z)
     glNormal3f(0, 0, 1);
-    glVertex3f(-x, -y,  z);
-    glVertex3f( x, -y,  z);
-    glVertex3f( x,  y,  z);
-    glVertex3f(-x,  y,  z);
+    glTexCoord2f(0,0); glVertex3f(minX, minY, maxZ);
+    glTexCoord2f(1,0); glVertex3f(maxX, minY, maxZ);
+    glTexCoord2f(1,1); glVertex3f(maxX, maxY, maxZ);
+    glTexCoord2f(0,1); glVertex3f(minX, maxY, maxZ);
 
-    // BELAKANG
+    // BELAKANG (-Z)
     glNormal3f(0, 0, -1);
-    glVertex3f(-x, -y, -z);
-    glVertex3f(-x,  y, -z);
-    glVertex3f( x,  y, -z);
-    glVertex3f( x, -y, -z);
+    glTexCoord2f(0,0); glVertex3f(minX, minY, minZ);
+    glTexCoord2f(0,1); glVertex3f(minX, maxY, minZ);
+    glTexCoord2f(1,1); glVertex3f(maxX, maxY, minZ);
+    glTexCoord2f(1,0); glVertex3f(maxX, minY, minZ);
 
-    // ATAS
+    // ATAS (+Y)
     glNormal3f(0, 1, 0);
-    glVertex3f(-x,  y, -z);
-    glVertex3f(-x,  y,  z);
-    glVertex3f( x,  y,  z);
-    glVertex3f( x,  y, -z);
+    glTexCoord2f(0,0); glVertex3f(minX, maxY, minZ);
+    glTexCoord2f(0,1); glVertex3f(minX, maxY, maxZ);
+    glTexCoord2f(1,1); glVertex3f(maxX, maxY, maxZ);
+    glTexCoord2f(1,0); glVertex3f(maxX, maxY, minZ);
 
-    // BAWAH
+    // BAWAH (-Y)
     glNormal3f(0, -1, 0);
-    glVertex3f(-x, -y, -z);
-    glVertex3f( x, -y, -z);
-    glVertex3f( x, -y,  z);
-    glVertex3f(-x, -y,  z);
+    glTexCoord2f(0,0); glVertex3f(minX, minY, minZ);
+    glTexCoord2f(1,0); glVertex3f(maxX, minY, minZ);
+    glTexCoord2f(1,1); glVertex3f(maxX, minY, maxZ);
+    glTexCoord2f(0,1); glVertex3f(minX, minY, maxZ);
 
-    // KANAN
+    // KANAN (+X)
     glNormal3f(1, 0, 0);
-    glVertex3f( x, -y, -z);
-    glVertex3f( x,  y, -z);
-    glVertex3f( x,  y,  z);
-    glVertex3f( x, -y,  z);
+    glTexCoord2f(0,0); glVertex3f(maxX, minY, minZ);
+    glTexCoord2f(0,1); glVertex3f(maxX, maxY, minZ);
+    glTexCoord2f(1,1); glVertex3f(maxX, maxY, maxZ);
+    glTexCoord2f(1,0); glVertex3f(maxX, minY, maxZ);
 
-    // KIRI
+    // KIRI (-X)
     glNormal3f(-1, 0, 0);
-    glVertex3f(-x, -y, -z);
-    glVertex3f(-x, -y,  z);
-    glVertex3f(-x,  y,  z);
-    glVertex3f(-x,  y, -z);
+    glTexCoord2f(0,0); glVertex3f(minX, minY, minZ);
+    glTexCoord2f(1,0); glVertex3f(minX, minY, maxZ);
+    glTexCoord2f(1,1); glVertex3f(minX, maxY, maxZ);
+    glTexCoord2f(0,1); glVertex3f(minX, maxY, minZ);
 
     glEnd();
-    glPopMatrix();
 }
 
-// ================== DISPLAY ==================
-void display()
+// ================== BALOK WARNA ==================
+void BalokWarna(
+    float x1, float y1, float z1,
+    float x2, float y2, float z2,
+    Color c)
 {
-    if (deltaAngle)
-    {
-        angle += deltaAngle;
-        orientMe(angle);
-    }
-
-    if (moveFB) moveMeFlat(moveFB);
-    if (moveLR) strafeMe(moveLR);
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-
-    gluLookAt(x, y, z,
-              x + lx, y + ly, z + lz,
-              0.0f, 1.0f, 0.0f);
-    
-    glDisable(GL_LIGHTING);
-	Grid();
-	glEnable(GL_LIGHTING);
-
-    // RESET COLLISION
-    wallCount = 0;
-
-    // ===== LORONG =====
-    Balok(0, 2, -5, 2, 4, 22);
-    addWall(0, -5, 2, 22);
-
-    Balok(5, 2, -5, 2, 4, 15);
-    addWall(5, -5, 2, 15);
-
-    Balok(12, 2, -12, 15, 4, 2);
-    addWall(12, -12, 15, 2);
-
-    Balok(7, 2, -17, 15, 4, 2);
-    addWall(8, -17, 15, 2);
-
-    glutSwapBuffers();
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(c.r, c.g, c.b);
+    _drawBalokFaces(x1, y1, z1, x2, y2, z2);
 }
 
-// ================== INPUT PANAH ==================
-void pressKey(int key, int xx, int yy)
+// ================== DINDING ==================
+static void Wall(
+    float x1, float y1, float z1,
+    float x2, float y2, float z2,
+    Color c)
 {
-    switch (key)
-    {
-        case GLUT_KEY_LEFT:  deltaAngle = -0.003f; break;
-        case GLUT_KEY_RIGHT: deltaAngle =  0.003f; break;
-    }
+    BalokWarna(x1, y1, z1, x2, y2, z2, c);
+    addWallFromPoints(x1, z1, x2, z2);
 }
 
-void releaseKey(int key, int x, int y)
+// ================== MAZE ==================
+void drawMaze()
 {
-    switch (key)
-    {
-        case GLUT_KEY_LEFT:
-        case GLUT_KEY_RIGHT:
-            deltaAngle = 0.0f;
-            break;
-    }
+    //  --- Lorong lurus ---
+    Wall(-1, 0, -20,   1, 4,  5, putih); // kiri
+    Wall( 3, 0, -14,   5, 4,  5, putih); // kanan
+
+    // --- Lorong belokan ---
+    Wall( 3, 0, -14,  18, 4, -12, putih); // kanan
+    Wall( -1, 0, -22,  18, 4, -20, putih); // kiri
+
+    // --- Dinding batas luar ---
+//    Wall(-8, 0, -24,  20, 4, -22, 1.0, 1.0, 1.0);
+//    Wall(-8, 0,   8,  20, 4,  10, 1.0, 1.0, 1.0);
+//    Wall(-8, 0, -24,  -6, 4,  10, 1.0, 1.0, 1.0);
+//    Wall(18, 0, -24,  20, 4,  10, 1.0, 1.0, 1.0);
 }
 
-// ================== INPUT WASD ==================
-void keyboard(unsigned char key, int xx, int yy)
-{
-    switch (key)
-    {
-        case 'w': moveFB = 1; break;
-        case 's': moveFB = -1; break;
-        case 'a': moveLR = 1; break;
-        case 'd': moveLR = -1; break;
-        case 'W': moveFB = 1; break;
-        case 'S': moveFB = -1; break;
-        case 'A': moveLR = 1; break;
-        case 'D': moveLR = -1; break;
-    }
-}
-
-void keyboardUp(unsigned char key, int xx, int yy)
-{
-    switch (key)
-    {
-        case 'w':
-        case 's': moveFB = 0; break;
-
-        case 'a':
-        case 'd': moveLR = 0; break;
-    }
-}
-
-//------------------------------------------------------------------
+// ============================================================
 // Lighting
-//------------------------------------------------------------------
-const GLfloat light_ambient[]  = {0.5f, 0.5f, 0.5f, 1.0f};
-const GLfloat light_diffuse[]  = {1.0f, 1.0f, 1.0f, 1.0f};
-const GLfloat light_specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
-const GLfloat light_position[] = {0.0f, 20.0f, 10.0f, 1.0f};
-
-const GLfloat mat_ambient[]    = {0.7f, 0.7f, 0.7f, 1.0f};
-const GLfloat mat_diffuse[]    = {0.8f, 0.8f, 0.8f, 1.0f};
-const GLfloat mat_specular[]   = {1.0f, 1.0f, 1.0f, 1.0f};
-const GLfloat high_shininess[] = {100.0f};
-
-void lighting()
+// ============================================================
+void initLighting()
 {
+    const GLfloat light_ambient[]  = { 0.4f, 0.4f, 0.4f, 1.0f };
+    const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
+    const GLfloat light_specular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+    const GLfloat light_position[] = { 0.0f, 20.0f, 10.0f, 1.0f };
+
+    const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
+    const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
+    const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
+    const GLfloat high_shininess[] = { 80.0f };
+
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -300,22 +394,56 @@ void lighting()
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 }
 
-// ================== INIT ==================
+// Matikan lighting sementara (misal untuk grid/HUD)
+void disableLighting() { glDisable(GL_LIGHTING); }
+void enableLighting()  { glEnable(GL_LIGHTING);  }
+
+
+// ============================================================
+// Display
+// ============================================================
+void display()
+{
+    keyboardSpecial();
+	updateCamera();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+
+    applyCamera();
+
+    disableLighting();
+    Grid();
+    enableLighting();
+
+    resetWalls();
+    drawMaze();
+
+    glutSwapBuffers();
+}
+
+// ============================================================
+// Init
+// ============================================================
 void init(void)
 {
     glEnable(GL_DEPTH_TEST);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glShadeModel(GL_SMOOTH);
+    glClearColor(0.05f, 0.05f, 0.1f, 1.0f);
 }
 
-// ================== MAIN ==================
-int main(int argc, char **argv)
+// ============================================================
+// Main
+// ============================================================
+int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-
-    glutInitWindowSize(800, 600);
-    glutCreateWindow("3D FPS Mini (Collision)");
+    glutInitWindowSize(1024, 600);
+    glutCreateWindow("Maze 3D");
+    
+    glutIgnoreKeyRepeat(1);
 
     glutDisplayFunc(display);
     glutIdleFunc(display);
@@ -323,13 +451,14 @@ int main(int argc, char **argv)
 
     glutSpecialFunc(pressKey);
     glutSpecialUpFunc(releaseKey);
-
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
 
-	lighting();
+    initLighting();
     init();
     
+    lastTime = glutGet(GLUT_ELAPSED_TIME);
+
     glutMainLoop();
     return 0;
 }
