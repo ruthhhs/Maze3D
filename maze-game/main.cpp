@@ -8,7 +8,7 @@
 float angle = 0.0, deltaAngle = 0.0, ratio;
 float x = 0.0f, y = 1.75f, z = 15.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
-
+bool topView = false;
 int lastTime = 0;
 float deltaTime = 0.0f;
 
@@ -344,6 +344,74 @@ static void Wall(
     addWallFromPoints(x1, z1, x2, z2);
 }
 
+// ========================================================
+// HUD
+// ========================================================
+
+// ================== TEXT ==================
+void renderChar(char c)
+{
+    glutBitmapCharacter(GLUT_BITMAP_9_BY_15, c);
+}
+
+void renderText(int screenX, int screenY, const char *text)
+{
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0, w, 0, h);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    // Nonaktifkan lighting & depth test supaya teks selalu tampil di atas
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+
+    glRasterPos2i(screenX, screenY);
+
+    for (int i = 0; text[i] != '\0'; i++)
+    {
+        renderChar(text[i]);
+    }
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+}
+
+// ================== DISPLAY HUD ==================
+void drawHUD()
+{
+    char buf[128];
+
+    // Warna teks: kuning muda
+    glColor3f(0.8f, 0.8f, 0.4f);
+
+	// For development
+    sprintf(buf, "X: %.2f  Y: %.2f  Z: %.2f", x, y, z);
+    renderText(10, h - 20, buf);
+
+    float angleDeg = angle * (180.0f / 3.14159265f);
+    sprintf(buf, "Angle: %.1f deg", angleDeg);
+    renderText(10, h - 40, buf);
+
+    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");
+    renderText(10, h - 60, buf);
+    
+    renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint | T: Toggle View");
+
+	// For player
+//    renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint");
+}
+
+
 // ================== MAZE ==================
 void drawMaze()
 {
@@ -355,6 +423,7 @@ void drawMaze()
     Wall( 3, 0, -14,  18, 4, -12, putih); // kanan
     Wall( -1, 0, -22,  18, 4, -20, putih); // kiri
 
+	drawHUD();
     // --- Dinding batas luar ---
 //    Wall(-8, 0, -24,  20, 4, -22, 1.0, 1.0, 1.0);
 //    Wall(-8, 0,   8,  20, 4,  10, 1.0, 1.0, 1.0);
