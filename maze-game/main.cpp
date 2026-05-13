@@ -2,6 +2,8 @@
 #include <GL/glut.h>
 #include <stdio.h>
 
+#include "imageloader.h"
+
 // ============================================================
 // Camera
 // ============================================================
@@ -231,6 +233,67 @@ void keyboardSpecial()
 }
 
 // ============================================================
+// Texture
+// ============================================================
+GLuint loadTexture(Image* image)
+{
+    GLuint textureId;
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RGB,
+        image->width,
+        image->height,
+        0,
+        GL_RGB,
+        GL_UNSIGNED_BYTE,
+        image->pixels
+    );
+
+    return textureId;
+}
+
+#define TEX_PATH "tex/"
+
+// kamus texture
+GLuint texWall;
+
+void initRendering()
+{
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_TEXTURE_2D);
+
+    // masukin img ke kamus texture
+    Image* img;
+
+	img = loadBMP(TEX_PATH "bush.bmp");
+	texWall = loadTexture(img);
+	printf("texWall = %d\n", texWall);
+	delete img;
+	
+}
+
+void handleResize(int w, int h) {
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0, (float)w / (float)h, 1.0, 200.0);
+}
+
+// ============================================================
 // Geometri
 // ============================================================
 
@@ -268,7 +331,6 @@ static void _drawBalokFaces(
     float x1, float y1, float z1,
     float x2, float y2, float z2)
 {
-    // Pastikan urutan min/max benar
     float minX = x1 < x2 ? x1 : x2;
     float maxX = x1 > x2 ? x1 : x2;
     float minY = y1 < y2 ? y1 : y2;
@@ -276,54 +338,63 @@ static void _drawBalokFaces(
     float minZ = z1 < z2 ? z1 : z2;
     float maxZ = z1 > z2 ? z1 : z2;
 
+    float sizeX = fabs(maxX - minX);
+    float sizeY = fabs(maxY - minY);
+    float sizeZ = fabs(maxZ - minZ);
+
+    // skala repeat (ubah angka 2.0 sesuai kebutuhan)
+    float repX = sizeX / 2.0f;
+    float repY = sizeY / 2.0f;
+    float repZ = sizeZ / 2.0f;
+
     glBegin(GL_QUADS);
 
-    // DEPAN (+Z)
-    glNormal3f(0, 0, 1);
-    glTexCoord2f(0,0); glVertex3f(minX, minY, maxZ);
-    glTexCoord2f(1,0); glVertex3f(maxX, minY, maxZ);
-    glTexCoord2f(1,1); glVertex3f(maxX, maxY, maxZ);
-    glTexCoord2f(0,1); glVertex3f(minX, maxY, maxZ);
+    // DEPAN (+Z) -> pakai X,Y
+    glNormal3f(0,0,1);
+    glTexCoord2f(0,0);         glVertex3f(minX,minY,maxZ);
+    glTexCoord2f(repX,0);      glVertex3f(maxX,minY,maxZ);
+    glTexCoord2f(repX,repY);   glVertex3f(maxX,maxY,maxZ);
+    glTexCoord2f(0,repY);      glVertex3f(minX,maxY,maxZ);
 
-    // BELAKANG (-Z)
-    glNormal3f(0, 0, -1);
-    glTexCoord2f(0,0); glVertex3f(minX, minY, minZ);
-    glTexCoord2f(0,1); glVertex3f(minX, maxY, minZ);
-    glTexCoord2f(1,1); glVertex3f(maxX, maxY, minZ);
-    glTexCoord2f(1,0); glVertex3f(maxX, minY, minZ);
+    // BELAKANG (-Z) -> pakai X,Y
+    glNormal3f(0,0,-1);
+    glTexCoord2f(0,0);         glVertex3f(minX,minY,minZ);
+    glTexCoord2f(repX,0);      glVertex3f(maxX,minY,minZ);
+    glTexCoord2f(repX,repY);   glVertex3f(maxX,maxY,minZ);
+    glTexCoord2f(0,repY);      glVertex3f(minX,maxY,minZ);
 
-    // ATAS (+Y)
-    glNormal3f(0, 1, 0);
-    glTexCoord2f(0,0); glVertex3f(minX, maxY, minZ);
-    glTexCoord2f(0,1); glVertex3f(minX, maxY, maxZ);
-    glTexCoord2f(1,1); glVertex3f(maxX, maxY, maxZ);
-    glTexCoord2f(1,0); glVertex3f(maxX, maxY, minZ);
+    // ATAS (+Y) -> pakai X,Z
+    glNormal3f(0,1,0);
+    glTexCoord2f(0,0);         glVertex3f(minX,maxY,minZ);
+    glTexCoord2f(repX,0);      glVertex3f(maxX,maxY,minZ);
+    glTexCoord2f(repX,repZ);   glVertex3f(maxX,maxY,maxZ);
+    glTexCoord2f(0,repZ);      glVertex3f(minX,maxY,maxZ);
 
-    // BAWAH (-Y)
-    glNormal3f(0, -1, 0);
-    glTexCoord2f(0,0); glVertex3f(minX, minY, minZ);
-    glTexCoord2f(1,0); glVertex3f(maxX, minY, minZ);
-    glTexCoord2f(1,1); glVertex3f(maxX, minY, maxZ);
-    glTexCoord2f(0,1); glVertex3f(minX, minY, maxZ);
+    // BAWAH (-Y) -> pakai X,Z
+    glNormal3f(0,-1,0);
+    glTexCoord2f(0,0);         glVertex3f(minX,minY,minZ);
+    glTexCoord2f(repX,0);      glVertex3f(maxX,minY,minZ);
+    glTexCoord2f(repX,repZ);   glVertex3f(maxX,minY,maxZ);
+    glTexCoord2f(0,repZ);      glVertex3f(minX,minY,maxZ);
 
-    // KANAN (+X)
-    glNormal3f(1, 0, 0);
-    glTexCoord2f(0,0); glVertex3f(maxX, minY, minZ);
-    glTexCoord2f(0,1); glVertex3f(maxX, maxY, minZ);
-    glTexCoord2f(1,1); glVertex3f(maxX, maxY, maxZ);
-    glTexCoord2f(1,0); glVertex3f(maxX, minY, maxZ);
+    // KANAN (+X) -> pakai Z,Y
+    glNormal3f(1,0,0);
+    glTexCoord2f(0,0);         glVertex3f(maxX,minY,minZ);
+    glTexCoord2f(repZ,0);      glVertex3f(maxX,minY,maxZ);
+    glTexCoord2f(repZ,repY);   glVertex3f(maxX,maxY,maxZ);
+    glTexCoord2f(0,repY);      glVertex3f(maxX,maxY,minZ);
 
-    // KIRI (-X)
-    glNormal3f(-1, 0, 0);
-    glTexCoord2f(0,0); glVertex3f(minX, minY, minZ);
-    glTexCoord2f(1,0); glVertex3f(minX, minY, maxZ);
-    glTexCoord2f(1,1); glVertex3f(minX, maxY, maxZ);
-    glTexCoord2f(0,1); glVertex3f(minX, maxY, minZ);
+    // KIRI (-X) -> pakai Z,Y
+    glNormal3f(-1,0,0);
+    glTexCoord2f(0,0);         glVertex3f(minX,minY,minZ);
+    glTexCoord2f(repZ,0);      glVertex3f(minX,minY,maxZ);
+    glTexCoord2f(repZ,repY);   glVertex3f(minX,maxY,maxZ);
+    glTexCoord2f(0,repY);      glVertex3f(minX,maxY,minZ);
 
     glEnd();
 }
 
-// ================== BALOK WARNA ==================
+// ================== BALOK WARNA & TEXTURE ==================
 void BalokWarna(
     float x1, float y1, float z1,
     float x2, float y2, float z2,
@@ -334,13 +405,36 @@ void BalokWarna(
     _drawBalokFaces(x1, y1, z1, x2, y2, z2);
 }
 
-// ================== DINDING ==================
+void BalokTex(
+    float x1, float y1, float z1,
+    float x2, float y2, float z2,
+    GLuint tex)
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, tex);
+
+    glColor3f(1,1,1); // putih
+    _drawBalokFaces(x1, y1, z1, x2, y2, z2);
+
+    glDisable(GL_TEXTURE_2D);
+}
+
+// ================== DINDING WARNA & TEXTURE ==================
 static void Wall(
     float x1, float y1, float z1,
     float x2, float y2, float z2,
     Color c)
 {
     BalokWarna(x1, y1, z1, x2, y2, z2, c);
+    addWallFromPoints(x1, z1, x2, z2);
+}
+
+void WallTex(
+    float x1, float y1, float z1,
+    float x2, float y2, float z2,
+    GLuint tex)
+{
+    BalokTex(x1, y1, z1, x2, y2, z2, tex);
     addWallFromPoints(x1, z1, x2, z2);
 }
 
@@ -416,19 +510,14 @@ void drawHUD()
 void drawMaze()
 {
     //  --- Lorong lurus ---
-    Wall(-1, 0, -20,   1, 4,  5, putih); // kiri
-    Wall( 3, 0, -14,   5, 4,  5, putih); // kanan
+    WallTex(-1, 0, -20,   1, 4,  5, texWall); // kiri
+    WallTex( 3, 0, -14,   5, 4,  5, texWall); // kanan
 
     // --- Lorong belokan ---
-    Wall( 3, 0, -14,  18, 4, -12, putih); // kanan
-    Wall( -1, 0, -22,  18, 4, -20, putih); // kiri
+    WallTex( 3, 0, -14,  18, 4, -12, texWall); // kanan
+    WallTex( -1, 0, -22,  18, 4, -20, texWall); // kiri
 
 	drawHUD();
-    // --- Dinding batas luar ---
-//    Wall(-8, 0, -24,  20, 4, -22, 1.0, 1.0, 1.0);
-//    Wall(-8, 0,   8,  20, 4,  10, 1.0, 1.0, 1.0);
-//    Wall(-8, 0, -24,  -6, 4,  10, 1.0, 1.0, 1.0);
-//    Wall(18, 0, -24,  20, 4,  10, 1.0, 1.0, 1.0);
 }
 
 // ============================================================
@@ -483,6 +572,9 @@ void display()
 
     disableLighting();
     Grid();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texWall);
+	glDisable(GL_TEXTURE_2D);
     enableLighting();
 
     resetWalls();
@@ -524,6 +616,7 @@ int main(int argc, char** argv)
     glutKeyboardUpFunc(keyboardUp);
 
     initLighting();
+    initRendering();
     init();
     
     lastTime = glutGet(GLUT_ELAPSED_TIME);
