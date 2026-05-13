@@ -29,11 +29,22 @@ void orientMe(float ang)
 // ======= Set view matrix =======
 void applyCamera()
 {
-    gluLookAt(
-        x, y, z,
-        x + lx, y + ly, z + lz,
-        0.0f, 1.0f, 0.0f
-    );
+    if (topView)
+    {
+        gluLookAt(
+            x, 40.0f, z,   
+            x, 0.0f, z,
+            0.0f, 0.0f, -1.0f
+        );
+    }
+    else
+    {
+        gluLookAt(
+            x, y, z,
+            x + lx, y + ly, z + lz,
+            0.0f, 1.0f, 0.0f
+        );
+    }
 }
 
 // ============================================================
@@ -98,8 +109,8 @@ int sprint = 0;
 float velocityY = 0.0f;
 int isJumping = 0;
 
-const float gravity = 9.8f;
-const float jumpPower = 3.0f;
+const float gravity = 15.0f;
+const float jumpPower = 5.0f;
 const float groundY = 1.75f;
 
 // ======= Maju / mundur =======
@@ -208,6 +219,9 @@ void keyboard(unsigned char key, int xx, int yy)
                 velocityY = jumpPower;
             }
             break;
+            
+        case 't': case 'T': topView = !topView; break;
+        case 27: exit(0); break; // ESC untuk keluar
     }
 }
 
@@ -279,7 +293,7 @@ void initRendering()
     // masukin img ke kamus texture
     Image* img;
 
-	img = loadBMP(TEX_PATH "bush.bmp");
+	img = loadBMP(TEX_PATH "leaves.bmp");
 	texWall = loadTexture(img);
 	printf("texWall = %d\n", texWall);
 	delete img;
@@ -312,10 +326,17 @@ Color kuning= {1.0f, 1.0f, 0.0f};
 // ================== GRID ==================
 void Grid()
 {
+    double i;
+    const float Z_MIN = -50;
+    const float Z_MAX = 50;
+    const float X_MIN = -50;
+    const float X_MAX = 50;
+    const float gap = 2;
+
     glColor3f(0.5, 0.5, 0.5);
 
     glBegin(GL_LINES);
-    for (float i = -50; i <= 50; i += 1.5)
+    for (float i = X_MIN; i <= X_MAX; i += 1.5)
     {
         glVertex3f(i, 0, -50);
         glVertex3f(i, 0, 50);
@@ -489,15 +510,12 @@ void drawHUD()
     glColor3f(0.8f, 0.8f, 0.4f);
 
 	// For development
-    sprintf(buf, "X: %.2f  Y: %.2f  Z: %.2f", x, y, z);
-    renderText(10, h - 20, buf);
-
-    float angleDeg = angle * (180.0f / 3.14159265f);
-    sprintf(buf, "Angle: %.1f deg", angleDeg);
-    renderText(10, h - 40, buf);
-
-    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");
-    renderText(10, h - 60, buf);
+	float angleDeg = angle * (180.0f / 3.14159265f);
+    sprintf(buf, "X: %.2f  Y: %.2f  Z: %.2f", x, y, z);	renderText(10, h - 20, buf);
+    sprintf(buf, "Angle: %.1f deg", angleDeg);			renderText(10, h - 40, buf);
+    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");	renderText(10, h - 60, buf);
+    
+    renderText(w/2, h/2, "+");
     
     renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint | T: Toggle View");
 
@@ -525,15 +543,15 @@ void drawMaze()
 // ============================================================
 void initLighting()
 {
-    const GLfloat light_ambient[]  = { 0.4f, 0.4f, 0.4f, 1.0f };
-    const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
+    const GLfloat light_ambient[]  = { 0.08f, 0.08f, 0.10f, 1.0f };
+    const GLfloat light_diffuse[]  = { 1.0f, 0.95f, 0.85f, 1.0f };
     const GLfloat light_specular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
     const GLfloat light_position[] = { 0.0f, 20.0f, 10.0f, 1.0f };
 
-    const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
+    const GLfloat mat_ambient[]    = { 0.3f, 0.3f, 0.3f, 1.0f };
     const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
-    const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
-    const GLfloat high_shininess[] = { 80.0f };
+    const GLfloat mat_specular[]   = { 0.9f, 0.9f, 0.9f, 1.0f };
+    const GLfloat high_shininess[] = { 100.0f };
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
@@ -566,6 +584,7 @@ void display()
 	updateCamera();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     applyCamera();
