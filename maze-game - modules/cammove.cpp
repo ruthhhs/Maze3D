@@ -11,10 +11,13 @@ float deltaAngle = 0.0, ratio;
 float x = 0.0f, y = 1.75f, z = 15.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
 int h, w;
-int moveFB = 0;
-int moveLR = 0;
+bool keyW = false;
+bool keyS = false;
+bool keyA = false;
+bool keyD = false;
 
 bool topView = false;
+bool gameOver = false;
 int lastTime = 0;
 float deltaTime = 0.0f;
 
@@ -106,9 +109,21 @@ void updateCamera()
     angle += deltaAngle * deltaTime;
     orientMe(angle);
 
-    if (moveFB) moveMeFlat(moveFB);
-    if (moveLR) strafeMe(moveLR);
+    // movement
+	if (keyW) moveMeFlat( 2);
+	if (keyS) moveMeFlat(-2);
+	if (keyA) strafeMe( 2);
+	if (keyD) strafeMe(-2);
 
+	// hole
+	if (checkHole(x, z)) {
+	    gameOver = true;
+	}
+	if (gameOver) {
+	    y -= 5.0f * deltaTime;
+	    return;
+	}
+	
     // jump physics
     if (isJumping)
     {
@@ -147,10 +162,10 @@ void keyboard(unsigned char key, int xx, int yy)
 {
     switch (key)
     {
-        case 'w': case 'W': moveFB =  2; break;
-        case 's': case 'S': moveFB = -2; break;
-        case 'a': case 'A': moveLR =  2; break;
-        case 'd': case 'D': moveLR = -2; break;
+        case 'w': case 'W': keyW = true; break;
+        case 's': case 'S': keyS = true; break;
+        case 'a': case 'A': keyA = true; break;
+        case 'd': case 'D': keyD = true; break;
         
         case ' ':
             if (!isJumping)
@@ -165,14 +180,12 @@ void keyboard(unsigned char key, int xx, int yy)
     }
 }
 
-void keyboardUp(unsigned char key, int xx, int yy)
-{
-    switch (key)
-    {
-        case 'w': case 'W':
-        case 's': case 'S': moveFB = 0; break;
-        case 'a': case 'A':
-        case 'd': case 'D': moveLR = 0; break;
+void keyboardUp(unsigned char key, int xx, int yy) {
+    switch (key) {
+        case 'w': case 'W': keyW = false; break;
+        case 's': case 'S': keyS = false; break;
+        case 'a': case 'A': keyA = false; break;
+        case 'd': case 'D': keyD = false; break;
     }
 }
 

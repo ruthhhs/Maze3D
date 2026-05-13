@@ -181,3 +181,127 @@ void WallTex(
     BalokTex(x1, y1, z1, x2, y2, z2, tex);
     addWallFromPoints(x1, z1, x2, z2);
 }
+
+// ==================== POHON BESAR ====================
+void drawTree(float tx, float tz) {
+    // collision
+    addWallFromPoints(tx - 2.0f, tz - 2.0f, tx + 2.0f, tz + 2.0f);
+
+    // batang
+    glColor3f(0.40f, 0.25f, 0.08f);
+    glPushMatrix();
+    glTranslatef(tx, 0, tz);
+    glRotatef(-90, 1, 0, 0);
+    GLUquadric* q = gluNewQuadric();
+    gluCylinder(q, 0.35f, 0.25f, 4.0f, 8, 4);
+    gluDeleteQuadric(q);
+    glPopMatrix();
+
+    // daun
+    float leafColors[3][3] = {
+        {0.15f, 0.50f, 0.08f},
+        {0.20f, 0.58f, 0.12f},
+        {0.25f, 0.65f, 0.15f}
+    };
+
+    float layerY[3] = {3.0f, 5.0f, 7.0f};
+    float layerRad[3] = {3.2f, 2.4f, 1.5f};
+
+    for (int i = 0; i < 3; i++) {
+        glColor3f(
+            leafColors[i][0],
+            leafColors[i][1],
+            leafColors[i][2]
+        );
+        glPushMatrix();
+        glTranslatef(tx, layerY[i], tz);
+        glutSolidSphere(layerRad[i], 10, 8);
+        glPopMatrix();
+    }
+}
+
+// ==================== POHON KECIL ====================
+void drawSmallTree(float tx, float tz) {
+    // collision
+    addWallFromPoints(tx - 0.8f, tz - 0.8f, tx + 0.8f, tz + 0.8f);
+
+    // batang
+    glColor3f(0.35f, 0.20f, 0.07f);
+    glPushMatrix();
+    glTranslatef(tx, 0, tz);
+    glRotatef(-90, 1, 0, 0);
+    GLUquadric* q = gluNewQuadric();
+    gluCylinder(q, 0.10f, 0.05f, 1.5f, 4, 3);
+    gluDeleteQuadric(q);
+    glPopMatrix();
+
+    // daun
+    glColor3f(0.18f, 0.52f, 0.10f);
+    glPushMatrix();
+    glTranslatef(tx, 2.0f, tz);
+    glutSolidSphere(1.2f, 8, 7);
+    glPopMatrix();
+}
+
+// ==================== LUBANG ====================
+Hole holes[MAX_HOLES];
+int holeCount = 0;
+
+void addHole(float x1, float z1, float x2, float z2) {
+    if (holeCount >= MAX_HOLES)
+        return;
+	
+    float minX = x1 < x2 ? x1 : x2;
+    float maxX = x1 > x2 ? x1 : x2;
+
+    float minZ = z1 < z2 ? z1 : z2;
+    float maxZ = z1 > z2 ? z1 : z2;
+
+    holes[holeCount].minX = minX;
+    holes[holeCount].maxX = maxX;
+
+    holes[holeCount].minZ = minZ;
+    holes[holeCount].maxZ = maxZ;
+
+    holeCount++;
+}
+
+int checkHole(float px, float pz) {
+    for (int i = 0; i < holeCount; i++) {
+        if (
+            px > holes[i].minX &&
+            px < holes[i].maxX &&
+            pz > holes[i].minZ &&
+            pz < holes[i].maxZ
+        )
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void drawHole(float cx, float cz, float radius) {
+    addHole(
+        cx - radius,
+        cz - radius,
+        cx + radius,
+        cz + radius
+    );
+    
+    // warna lubang
+    glColor3f(0.15f, 0.15f, 0.15f);
+    glBegin(GL_TRIANGLE_FAN);
+
+    // titik tengah
+    glVertex3f(cx, 0.01f, cz);
+
+    // lingkaran
+    for (int i = 0; i <= 360; i++) {
+        float angle = i * 3.14159f / 180.0f;
+        float x = cx + cos(angle) * radius;
+        float z = cz + sin(angle) * radius;
+        glVertex3f(x, 0.01f, z);
+    }
+    glEnd();
+}

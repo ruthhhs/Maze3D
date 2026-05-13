@@ -11,8 +11,6 @@ extern float ratio;
 extern float x, y, z;
 extern float lx, ly, lz;
 extern int h, w;
-extern int moveFB;
-extern int moveLR;
 
 extern bool topView;
 extern int lastTime;
