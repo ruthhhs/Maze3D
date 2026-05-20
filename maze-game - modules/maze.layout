@@ -21,7 +21,7 @@ Top=0
 <<<<<<< HEAD
 CursorCol=30
 CursorRow=102
-TopLine=73
+TopLine=68
 =======
 CursorCol=1
 CursorRow=6
@@ -44,7 +44,7 @@ LeftChar=1
 Open=1
 Top=0
 [Editors]
-Focused=14
+Focused=13
 <<<<<<< HEAD
 Order=0,1,2,7,8,9,10,5,6,11,12,3,13,14
 =======
@@ -55,7 +55,7 @@ Order=0,1,2,7,8,9,10,5,6,11,12,3
 >>>>>>> origin/azka
 >>>>>>> main
 [Editor_3]
-Open=0
+Open=1
 Top=0
 CursorCol=1
 CursorRow=3
@@ -92,7 +92,7 @@ LeftChar=1
 Open=1
 Top=0
 <<<<<<< HEAD
-CursorCol=26
+CursorCol=1
 CursorRow=213
 TopLine=229
 =======
@@ -132,9 +132,9 @@ LeftChar=1
 Open=1
 Top=0
 <<<<<<< HEAD
-CursorCol=2
-CursorRow=38
-TopLine=20
+CursorCol=46
+CursorRow=177
+TopLine=39
 =======
 <<<<<<< HEAD
 CursorCol=24
@@ -149,17 +149,17 @@ LeftChar=1
 [Editor_12]
 Open=1
 Top=0
-CursorCol=60
-CursorRow=3
+CursorCol=7
+CursorRow=9
 TopLine=1
 LeftChar=1
 [Editor_13]
 Open=1
-Top=0
+Top=1
 <<<<<<< HEAD
-CursorCol=25
-CursorRow=53
-TopLine=69
+CursorCol=1
+CursorRow=78
+TopLine=64
 =======
 CursorCol=1
 CursorRow=1
@@ -168,10 +168,10 @@ TopLine=56
 LeftChar=1
 [Editor_14]
 Open=1
-Top=1
+Top=0
 <<<<<<< HEAD
-CursorCol=19
-CursorRow=11
+CursorCol=27
+CursorRow=16
 =======
 CursorCol=1
 CursorRow=13
