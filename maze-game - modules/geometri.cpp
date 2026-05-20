@@ -8,10 +8,10 @@
 void Grid()
 {
     double i;
-    const float Z_MIN = -50;
-    const float Z_MAX = 50;
-    const float X_MIN = -50;
-    const float X_MAX = 50;
+    const float Z_MIN = -LUAS_GRID;
+    const float Z_MAX = LUAS_GRID;
+    const float X_MIN = -LUAS_GRID;
+    const float X_MAX = LUAS_GRID;
     const float gap = 2;
 
     glColor3f(0.5, 0.5, 0.5);
@@ -19,11 +19,11 @@ void Grid()
     glBegin(GL_LINES);
     for (float i = X_MIN; i <= X_MAX; i += 1.5)
     {
-        glVertex3f(i, 0, -50);
-        glVertex3f(i, 0, 50);
+        glVertex3f(i, 0, -LUAS_GRID);
+        glVertex3f(i, 0, LUAS_GRID);
 
-        glVertex3f(-50, 0, i);
-        glVertex3f(50, 0, i);
+        glVertex3f(-LUAS_GRID, 0, i);
+        glVertex3f(LUAS_GRID, 0, i);
     }
     glEnd();
 }

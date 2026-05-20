@@ -1,29 +1,61 @@
 [Editor_1]
+<<<<<<< HEAD
 CursorCol=34
 CursorRow=201
 TopLine=178
+=======
+<<<<<<< HEAD
+CursorCol=29
+CursorRow=26
+TopLine=1
+=======
+CursorCol=20
+CursorRow=229
+TopLine=214
+>>>>>>> origin/azka
+>>>>>>> main
 LeftChar=1
 Open=1
 Top=0
 [Editor_0]
+<<<<<<< HEAD
 CursorCol=30
 CursorRow=102
 TopLine=73
+=======
+CursorCol=1
+CursorRow=6
+TopLine=1
+>>>>>>> main
 LeftChar=1
 Open=1
 Top=0
 [Editor_2]
+<<<<<<< HEAD
 CursorCol=30
 CursorRow=27
 TopLine=1
+=======
+CursorCol=21
+CursorRow=56
+TopLine=26
+>>>>>>> main
 LeftChar=1
 Open=1
 Top=0
 [Editors]
 Focused=14
+<<<<<<< HEAD
 Order=0,1,2,7,8,9,10,5,6,11,12,3,13,14
+=======
+<<<<<<< HEAD
+Order=0,1,2,7,8,9,10,5,6,11,12,13,14
+=======
+Order=0,1,2,7,8,9,10,5,6,11,12,3
+>>>>>>> origin/azka
+>>>>>>> main
 [Editor_3]
-Open=1
+Open=0
 Top=0
 CursorCol=1
 CursorRow=3
@@ -39,70 +71,110 @@ Top=0
 [Editor_5]
 Open=1
 Top=0
+<<<<<<< HEAD
 CursorCol=1
 CursorRow=14
 TopLine=37
+=======
+CursorCol=24
+CursorRow=78
+TopLine=1
+>>>>>>> main
 LeftChar=1
 [Editor_6]
 Open=1
 Top=0
 CursorCol=1
-CursorRow=4
+CursorRow=1
 TopLine=1
 LeftChar=1
 [Editor_7]
 Open=1
 Top=0
+<<<<<<< HEAD
 CursorCol=26
 CursorRow=213
 TopLine=229
+=======
+CursorCol=34
+CursorRow=197
+TopLine=178
+>>>>>>> main
 LeftChar=1
 [Editor_8]
 Open=1
 Top=0
-CursorCol=17
-CursorRow=13
+CursorCol=4
+CursorRow=5
 TopLine=1
 LeftChar=1
 [Editor_9]
 Open=1
 Top=0
+<<<<<<< HEAD
 CursorCol=4
 CursorRow=20
 TopLine=41
+=======
+CursorCol=1
+CursorRow=5
+TopLine=28
+>>>>>>> main
 LeftChar=1
 [Editor_10]
 Open=1
 Top=0
-CursorCol=8
-CursorRow=22
+CursorCol=1
+CursorRow=14
 TopLine=1
 LeftChar=1
 [Editor_11]
 Open=1
 Top=0
+<<<<<<< HEAD
 CursorCol=2
 CursorRow=38
 TopLine=20
+=======
+<<<<<<< HEAD
+CursorCol=24
+CursorRow=164
+=======
+CursorCol=5
+CursorRow=22
+>>>>>>> origin/azka
+TopLine=126
+>>>>>>> main
 LeftChar=1
 [Editor_12]
 Open=1
 Top=0
-CursorCol=13
+CursorCol=60
 CursorRow=3
 TopLine=1
 LeftChar=1
 [Editor_13]
 Open=1
 Top=0
+<<<<<<< HEAD
 CursorCol=25
 CursorRow=53
 TopLine=69
+=======
+CursorCol=1
+CursorRow=1
+TopLine=56
+>>>>>>> main
 LeftChar=1
 [Editor_14]
 Open=1
 Top=1
+<<<<<<< HEAD
 CursorCol=19
 CursorRow=11
+=======
+CursorCol=1
+CursorRow=13
+>>>>>>> main
 TopLine=1
 LeftChar=1

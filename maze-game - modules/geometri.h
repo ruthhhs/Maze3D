@@ -7,15 +7,18 @@
 #include "coltex.h"
 
 // ================== GRID ==================
+
+#define LUAS_GRID 65
 void Grid();
 
 // ================== COLLISION ==================
+#define MAX_WALLS 200
+
 typedef struct {
     float minX, maxX;
     float minZ, maxZ;
 } Box;
 
-#define MAX_WALLS 200
 extern Box walls[MAX_WALLS];
 extern int wallCount;
 extern float playerRadius;
@@ -50,12 +53,12 @@ void WallTex(
     GLuint tex);
     
 // ================== LUBANG ==================
+#define MAX_HOLES 50
+
 typedef struct {
     float minX, maxX;
     float minZ, maxZ;
 } Hole;
-
-#define MAX_HOLES 50
 
 extern Hole holes[MAX_HOLES];
 extern int holeCount;

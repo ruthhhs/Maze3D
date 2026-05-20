@@ -1,8 +1,12 @@
 // ========================================================
 // HUD
+// Display text and game ui
 // ========================================================
 #ifndef HUD_H_INCLUDED
 #define HUD_H_INCLUDED
+
+extern char countdown;
+extern int sisa;
 
 void renderChar(char c);
 void renderText(int screenX, int screenY, const char *text);

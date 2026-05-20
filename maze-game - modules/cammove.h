@@ -12,16 +12,22 @@ extern float x, y, z;
 extern float lx, ly, lz;
 extern int h, w;
 
-extern bool topView;
-extern int lastTime;
-extern float deltaTime;
-
 extern int sprint;
 extern float velocityY;
 extern int isJumping;
 extern const float gravity;
 extern const float jumpPowe;
 extern const float groundY;
+
+extern bool topView;
+extern int lastTime;
+extern float deltaTime;
+
+extern bool gameOver;
+extern float respawnTimer;
+extern float startX;
+extern float startY;
+extern float startZ;
 
 // ======= Camera =======
 void orientMe(float ang);

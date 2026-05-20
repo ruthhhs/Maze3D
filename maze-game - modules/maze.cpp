@@ -160,6 +160,7 @@ void drawMaze()
 	WallTex(28, 0, -52,  30, 4, -59, texWall); //115
 
     // ================= POHON =================
+    drawSmallTree(2, -15);
     drawTree(27.0, -9);
     drawTree(10, -10);
     

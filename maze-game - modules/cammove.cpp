@@ -21,17 +21,22 @@ bool keyS = false;
 bool keyA = false;
 bool keyD = false;
 
-bool topView = false;
-bool gameOver = false;
-int lastTime = 0;
-float deltaTime = 0.0f;
-
 int sprint = 0;
 float velocityY = 0.0f;
 int isJumping = 0;
 const float gravity = 15.0f;
 const float jumpPower = 5.0f;
 const float groundY = 1.75f;
+
+bool topView = false;
+int lastTime = 0;
+float deltaTime = 0.0f;
+
+bool gameOver = false;
+float respawnTimer = 0.0f;
+float startX = x;
+float startY = y;
+float startZ = z;
 
 // ======= Rotasi =======
 void orientMe(float ang)
@@ -148,16 +153,7 @@ void updateCamera()
 	if (keyA) strafeMe( 2);
 	if (keyD) strafeMe(-2);
 
-	// hole
-	if (checkHole(x, z)) {
-	    gameOver = true;
-	}
-	if (gameOver) {
-	    y -= 5.0f * deltaTime;
-	    return;
-	}
-	
-    // jump physics
+	// jump physics
     if (isJumping)
     {
         velocityY -= gravity * deltaTime;
@@ -170,17 +166,35 @@ void updateCamera()
             isJumping = 0;
         }
     }
+
+	// masuk hole
+	if (checkHole(x, z) && !gameOver) {
+	    gameOver = true;
+	    respawnTimer = 0.0f;
+	}
+	
+	// game over
+	if (gameOver) {
+		
+		// hole
+	    y -= 5.0f * deltaTime;
+	    if (y <= -3.0f) {
+	        y = -3.0f;
+	    }
+
+		// timer respawn
+	    respawnTimer += deltaTime;
+	    if (respawnTimer >= 3.0f) {
+	        x = startX;
+	        y = startY;
+	        z = startZ;
+	        gameOver = false;
+	        respawnTimer = 0.0f;
+	    }
+	}
 }
 
 // ======= Input keyboard =======
-//void pressKey(int key, int xx, int yy)
-//{
-//    switch (key)
-//    {
-//        case GLUT_KEY_LEFT: deltaAngle = -2.0f; break;
-//        case GLUT_KEY_RIGHT: deltaAngle = 2.0f; break;
-//    }
-//}
 void pressKey(int key, int xx, int yy)
 {
     switch (key)
@@ -219,6 +233,9 @@ void releaseKey(int key, int xx, int yy)
 
 void keyboard(unsigned char key, int xx, int yy)
 {
+	// kalau game over gabole gerak
+    if (gameOver) return;
+    
     switch (key)
     {
         case 'w': case 'W': keyW = true; break;
