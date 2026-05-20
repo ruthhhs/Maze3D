@@ -8,6 +8,7 @@
 #include "cammove.h"
 #include "coltex.h"
 #include "maze.h"
+#include "tree.h"
 
 // ============================================================
 // Lighting

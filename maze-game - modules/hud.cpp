@@ -75,7 +75,7 @@ void displayGameOver() {
     renderText(w/2 - 40, h/2 + 100, "GAME OVER");
     
     char countdown[64];
-	int sisa = (int)ceil(2.0f - respawnTimer);
+	int sisa = (int)ceil(3.0f - respawnTimer);
 	
 	glColor3f(kuning.r, kuning.g, kuning.b);
     sprintf(countdown, "Restart in %d", sisa);

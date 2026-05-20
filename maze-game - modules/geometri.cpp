@@ -8,10 +8,10 @@
 void Grid()
 {
     double i;
-    const float Z_MIN = -50;
-    const float Z_MAX = 50;
-    const float X_MIN = -50;
-    const float X_MAX = 50;
+    const float Z_MIN = -LUAS_GRID;
+    const float Z_MAX = LUAS_GRID;
+    const float X_MIN = -LUAS_GRID;
+    const float X_MAX = LUAS_GRID;
     const float gap = 2;
 
     glColor3f(0.5, 0.5, 0.5);
@@ -19,16 +19,16 @@ void Grid()
     glBegin(GL_LINES);
     for (float i = X_MIN; i <= X_MAX; i += 1.5)
     {
-        glVertex3f(i, 0, -50);
-        glVertex3f(i, 0, 50);
+        glVertex3f(i, 0, -LUAS_GRID);
+        glVertex3f(i, 0, LUAS_GRID);
 
-        glVertex3f(-50, 0, i);
-        glVertex3f(50, 0, i);
+        glVertex3f(-LUAS_GRID, 0, i);
+        glVertex3f(LUAS_GRID, 0, i);
     }
     glEnd();
 }
 
-// ================== COLLISION ==================
+// ================== COLLISION WALL ==================
 Box walls[MAX_WALLS];
 
 int wallCount = 0;
@@ -182,66 +182,6 @@ void WallTex(
     addWallFromPoints(x1, z1, x2, z2);
 }
 
-// ==================== POHON BESAR ====================
-void drawTree(float tx, float tz) {
-    // collision
-    addWallFromPoints(tx - 2.0f, tz - 2.0f, tx + 2.0f, tz + 2.0f);
-
-    // batang
-    glColor3f(0.40f, 0.25f, 0.08f);
-    glPushMatrix();
-    glTranslatef(tx, 0, tz);
-    glRotatef(-90, 1, 0, 0);
-    GLUquadric* q = gluNewQuadric();
-    gluCylinder(q, 0.35f, 0.25f, 4.0f, 8, 4);
-    gluDeleteQuadric(q);
-    glPopMatrix();
-
-    // daun
-    float leafColors[3][3] = {
-        {0.15f, 0.50f, 0.08f},
-        {0.20f, 0.58f, 0.12f},
-        {0.25f, 0.65f, 0.15f}
-    };
-
-    float layerY[3] = {3.0f, 5.0f, 7.0f};
-    float layerRad[3] = {3.2f, 2.4f, 1.5f};
-
-    for (int i = 0; i < 3; i++) {
-        glColor3f(
-            leafColors[i][0],
-            leafColors[i][1],
-            leafColors[i][2]
-        );
-        glPushMatrix();
-        glTranslatef(tx, layerY[i], tz);
-        glutSolidSphere(layerRad[i], 10, 8);
-        glPopMatrix();
-    }
-}
-
-// ==================== POHON KECIL ====================
-void drawSmallTree(float tx, float tz) {
-    // collision
-    addWallFromPoints(tx - 0.8f, tz - 0.8f, tx + 0.8f, tz + 0.8f);
-
-    // batang
-    glColor3f(0.35f, 0.20f, 0.07f);
-    glPushMatrix();
-    glTranslatef(tx, 0, tz);
-    glRotatef(-90, 1, 0, 0);
-    GLUquadric* q = gluNewQuadric();
-    gluCylinder(q, 0.10f, 0.05f, 1.5f, 4, 3);
-    gluDeleteQuadric(q);
-    glPopMatrix();
-
-    // daun
-    glColor3f(0.18f, 0.52f, 0.10f);
-    glPushMatrix();
-    glTranslatef(tx, 2.0f, tz);
-    glutSolidSphere(1.2f, 8, 7);
-    glPopMatrix();
-}
 
 // ==================== LUBANG ====================
 Hole holes[MAX_HOLES];
