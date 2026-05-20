@@ -49,10 +49,6 @@ void WallTex(
     float x2, float y2, float z2,
     GLuint tex);
     
-// ================== POHON ==================
-void drawTree(float tx, float tz);
-void drawSmallTree(float tx, float tz);
-
 // ================== LUBANG ==================
 typedef struct {
     float minX, maxX;

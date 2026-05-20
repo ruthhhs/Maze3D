@@ -4,12 +4,17 @@
 
 #include "cammove.h"
 #include "geometri.h"
+#include "tree.h"
 
 // ======= Variables =======
 float angle = 0.0;
 float deltaAngle = 0.0, ratio;
-float x = 0.0f, y = 1.75f, z = 15.0f;
+float x = 10.0f, y = 1.75f, z = -5.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
+
+float deltaPitch = 0.0f;
+float pitch = 0.0f;
+
 int h, w;
 bool keyW = false;
 bool keyS = false;
@@ -31,8 +36,9 @@ const float groundY = 1.75f;
 // ======= Rotasi =======
 void orientMe(float ang)
 {
-    lx = sin(ang);
-    lz = -cos(ang);
+    lx = -sin(ang) * cos(pitch);
+    ly = sin(pitch);
+    lz = cos(ang) * cos(pitch);
 }
 
 // ======= Set view matrix =======
@@ -65,8 +71,20 @@ void moveMeFlat(int i)
     float nextX = x + i * lx * speed;
     float nextZ = z + i * lz * speed;
 
-    if (!checkCollision(nextX, z)) x = nextX;
-    if (!checkCollision(x, nextZ)) z = nextZ;
+//    if (!checkCollision(nextX, z)) x = nextX;
+//    if (!checkCollision(x, nextZ)) z = nextZ;
+
+    if (!checkCollision(nextX, z) &&
+        !checkCircleCollision(nextX, z))
+    {
+        x = nextX;
+    }
+
+    if (!checkCollision(x, nextZ) &&
+        !checkCircleCollision(x, nextZ))
+    {
+        z = nextZ;
+    }
 }
 
 // ======= Strafe =======
@@ -78,8 +96,19 @@ void strafeMe(int i)
     float nextX = x + i * lz * speed;
     float nextZ = z - i * lx * speed;
 
-    if (!checkCollision(nextX, z)) x = nextX;
-    if (!checkCollision(x, nextZ)) z = nextZ;
+//    if (!checkCollision(nextX, z)) x = nextX;
+//    if (!checkCollision(x, nextZ)) z = nextZ;
+    if (!checkCollision(nextX, z) &&
+        !checkCircleCollision(nextX, z))
+    {
+        x = nextX;
+    }
+
+    if (!checkCollision(x, nextZ) &&
+        !checkCircleCollision(x, nextZ))
+    {
+        z = nextZ;
+    }
 }
 
 // ======= Reshape =======
@@ -107,6 +136,10 @@ void updateCamera()
     lastTime = currentTime;
 
     angle += deltaAngle * deltaTime;
+    pitch += deltaPitch * deltaTime;
+    
+    if (pitch > 1.5f) pitch = 1.5f;
+	if (pitch < -1.5f) pitch = -1.5f;
     orientMe(angle);
 
     // movement
@@ -140,12 +173,33 @@ void updateCamera()
 }
 
 // ======= Input keyboard =======
+//void pressKey(int key, int xx, int yy)
+//{
+//    switch (key)
+//    {
+//        case GLUT_KEY_LEFT: deltaAngle = -2.0f; break;
+//        case GLUT_KEY_RIGHT: deltaAngle = 2.0f; break;
+//    }
+//}
 void pressKey(int key, int xx, int yy)
 {
     switch (key)
     {
-        case GLUT_KEY_LEFT: deltaAngle = -2.0f; break;
-        case GLUT_KEY_RIGHT: deltaAngle = 2.0f; break;
+        case GLUT_KEY_LEFT:
+            deltaAngle = -2.0f;
+            break;
+
+        case GLUT_KEY_RIGHT:
+            deltaAngle = 2.0f;
+            break;
+
+        case GLUT_KEY_UP:
+            deltaPitch = 2.0f;
+            break;
+
+        case GLUT_KEY_DOWN:
+            deltaPitch = -2.0f;
+            break;
     }
 }
 
@@ -155,6 +209,11 @@ void releaseKey(int key, int xx, int yy)
     {
         case GLUT_KEY_LEFT:
         case GLUT_KEY_RIGHT: deltaAngle = 0.0f; break;
+        
+        case GLUT_KEY_UP:
+        case GLUT_KEY_DOWN:
+            deltaPitch = 0.0f;
+            break;
     }
 }
 
