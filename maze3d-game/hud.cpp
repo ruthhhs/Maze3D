@@ -3,8 +3,6 @@
 #include <stdio.h>
 
 #include "hud.h"
-#include "cammove.h"
-#include "coltex.h"
 
 // ================== TEXT ==================
 void renderChar(char c)
@@ -85,7 +83,7 @@ void drawOverlay(float alpha)
 // main menu
 void displayMainMenu()
 {
-    drawOverlay(0.2f);
+    drawOverlay(0.3f);
 
     glColor3f(kuning.r, kuning.g, kuning.b);
 

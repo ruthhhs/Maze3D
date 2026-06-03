@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o geometri.o imageloader.o hud.o cammove.o coltex.o maze.o tree.o lighting.o
-LINKOBJ  = main.o geometri.o imageloader.o hud.o cammove.o coltex.o maze.o tree.o lighting.o
+OBJ      = main.o geometri.o imageloader.o hud.o cammove.o coltex.o maze.o tree.o lighting.o hole.o rumput.o spike.o
+LINKOBJ  = main.o geometri.o imageloader.o hud.o cammove.o coltex.o maze.o tree.o lighting.o hole.o rumput.o spike.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc -mwindows -lglut32 -lglu32 -lopengl32 -lwinmm -lgdi32
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++"
@@ -50,3 +50,12 @@ tree.o: tree.cpp
 
 lighting.o: lighting.cpp
 	$(CPP) -c lighting.cpp -o lighting.o $(CXXFLAGS)
+
+hole.o: hole.cpp
+	$(CPP) -c hole.cpp -o hole.o $(CXXFLAGS)
+
+rumput.o: rumput.cpp
+	$(CPP) -c rumput.cpp -o rumput.o $(CXXFLAGS)
+
+spike.o: spike.cpp
+	$(CPP) -c spike.cpp -o spike.o $(CXXFLAGS)

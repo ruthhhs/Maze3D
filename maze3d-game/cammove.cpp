@@ -3,8 +3,6 @@
 #include <stdio.h>
 
 #include "cammove.h"
-#include "geometri.h"
-#include "tree.h"
 
 // ======= Variables =======
 float angle = 0.0;
@@ -39,6 +37,10 @@ float respawnTimer = 0.0f;
 float startX = x;
 float startY = y;
 float startZ = z;
+
+bool deadByHole = false;
+bool deadBySpike = false;
+float damageFlash = 0.0f;
 
 bool developerMode = false;
 bool showMainMenu = true;
@@ -195,17 +197,43 @@ void updateCamera()
     }
 
 	// masuk hole
-	if (checkHole(x, z) && !gameOver) {
-	    gameOver = true;
-	    respawnTimer = 0.0f;
+	if (!gameOver)
+	{
+	    if (checkHole(x, y, z))
+	    {
+	        gameOver = true;
+	        deadByHole = true;
+	        deadBySpike = false;
+	
+	        respawnTimer = 0.0f;
+	    }
+	
+	    else if (checkSpikeCollision(x, y, z))
+	    {
+	        gameOver = true;
+	        deadBySpike = true;
+	        deadByHole = false;
+	        damageFlash = 0.5f;
+	
+	        respawnTimer = 0.0f;
+	    }
 	}
 	
 	// game over
 	if (gameOver) {
-		// hole
-	    y -= 5.0f * deltaTime;
-	    if (y <= -3.0f) {
-	        y = -3.0f;
+		// kalau mati karena hole -> jatuh
+	    if (deadByHole) {
+	        y -= 5.0f * deltaTime;
+	        if (y <= -3.0f) {
+	            y = -3.0f;
+	        }
+	    }
+	
+	    // kalau spike -> merah
+	    if (deadBySpike) {
+			damageFlash -= deltaTime;		
+			if (damageFlash < 0.0f)
+			    damageFlash = 0.0f;
 	    }
 
 	    respawnTimer += deltaTime;

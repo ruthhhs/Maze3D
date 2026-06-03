@@ -4,6 +4,8 @@
 #ifndef CAMMOVE_H_INCLUDED
 #define CAMMOVE_H_INCLUDED
 
+#include "maze.h"
+
 // ======= Variables =======
 extern float angle;
 extern float deltaAngle;
@@ -29,6 +31,10 @@ extern float respawnTimer;
 extern float startX;
 extern float startY;
 extern float startZ;
+
+extern bool deadByHole;
+extern bool deadBySpike;
+extern float damageFlash;
 
 extern bool developerMode;
 extern bool showMainMenu;

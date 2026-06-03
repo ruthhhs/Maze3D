@@ -104,19 +104,3 @@ void drawSmallTree(float tx, float tz) {
     glutSolidSphere(1.2f, 8, 7);
     glPopMatrix();
 }
-
-// ==================== POHON KECIL BANGET ====================
-void drawSmallTree2(float tx, float tz) {
-	//shadow
-	drawCircleShadow(tx, tz, 0.5f);
-	
-    //collision
-	addCircleWall(tx - 0.2, tz + 0.2, 0.9f);
-
-    // daun
-    glColor3f(0.18f, 0.52f, 0.10f);
-    glPushMatrix();
-    glTranslatef(tx, 1.0f, tz);
-    glutSolidSphere(0.3f, 8, 7);
-    glPopMatrix();
-}

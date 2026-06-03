@@ -7,6 +7,9 @@
 #include "hud.h"
 #include "geometri.h"
 #include "tree.h"
+#include "rumput.h"
+#include "spike.h"
+#include "hole.h"
 
 void drawMaze();
 

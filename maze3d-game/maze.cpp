@@ -158,12 +158,19 @@ void drawMaze()
 	WallTex( 53, 0, -12,  64, 4, -14, texWall); //125
 	
     // ================= POHON =================
-    drawSmallTree2(25, 1);
-    drawSmallTree(27, 1);
     drawTree(27.0, -9);
     drawTree(10, -10);
     
+    drawSmallTree(27, 1);
+    
+    drawRumput(25, 1);
+    
     // ================= HOLE =================
     drawHole(18, 10, 2.0f);
-	drawHUD();
+	
+	// ================= SPIKE =================
+	drawSpike(5, 11);
+    drawSpike(4, 11);
+    drawSpike(3, 11);
+    drawSpike(2, 11);
 }

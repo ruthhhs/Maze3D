@@ -5,6 +5,9 @@
 #ifndef HUD_H_INCLUDED
 #define HUD_H_INCLUDED
 
+#include "cammove.h"
+#include "coltex.h"
+
 extern char countdown;
 extern int sisa;
 

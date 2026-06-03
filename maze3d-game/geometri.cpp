@@ -30,8 +30,7 @@ void Grid()
 
 void lantaiTex(GLuint tex)
 {
-    float size = LUAS_LANTAI;
-    float repeat = size / 4.0f;
+    float repeat = LUAS_LANTAI / 4.0f;
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tex);
@@ -40,10 +39,10 @@ void lantaiTex(GLuint tex)
 
     glBegin(GL_QUADS);
         glNormal3f(0,1,0);
-        glTexCoord2f(0,0);			glVertex3f(-size, 0, -size);
-        glTexCoord2f(repeat,0);		glVertex3f( size, 0, -size);
-        glTexCoord2f(repeat,repeat);glVertex3f( size, 0,  size);
-        glTexCoord2f(0,repeat);		glVertex3f(-size, 0,  size);
+        glTexCoord2f(0,0);			glVertex3f(-LUAS_LANTAI, -0.01, -LUAS_LANTAI);
+        glTexCoord2f(repeat,0);		glVertex3f( LUAS_LANTAI, -0.01, -LUAS_LANTAI);
+        glTexCoord2f(repeat,repeat);glVertex3f( LUAS_LANTAI, -0.01,  LUAS_LANTAI);
+        glTexCoord2f(0,repeat);		glVertex3f(-LUAS_LANTAI, -0.01,  LUAS_LANTAI);
     glEnd();
 
     glDisable(GL_TEXTURE_2D);
@@ -214,68 +213,4 @@ void WallTex(
 	drawShadowBox(x1, z1, x2, z2);
     BalokTex(x1, y1, z1, x2, y2, z2, tex);
     addWallFromPoints(x1, z1, x2, z2);
-}
-
-
-// ==================== LUBANG ====================
-Hole holes[MAX_HOLES];
-int holeCount = 0;
-
-void addHole(float x1, float z1, float x2, float z2) {
-    if (holeCount >= MAX_HOLES)
-        return;
-	
-    float minX = x1 < x2 ? x1 : x2;
-    float maxX = x1 > x2 ? x1 : x2;
-
-    float minZ = z1 < z2 ? z1 : z2;
-    float maxZ = z1 > z2 ? z1 : z2;
-
-    holes[holeCount].minX = minX;
-    holes[holeCount].maxX = maxX;
-
-    holes[holeCount].minZ = minZ;
-    holes[holeCount].maxZ = maxZ;
-
-    holeCount++;
-}
-
-int checkHole(float px, float pz) {
-    for (int i = 0; i < holeCount; i++) {
-        if (
-            px > holes[i].minX &&
-            px < holes[i].maxX &&
-            pz > holes[i].minZ &&
-            pz < holes[i].maxZ
-        )
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void drawHole(float cx, float cz, float radius) {
-    addHole(
-        cx - radius,
-        cz - radius,
-        cx + radius,
-        cz + radius
-    );
-    
-    // warna lubang
-    glColor3f(0.15f, 0.15f, 0.15f);
-    glBegin(GL_TRIANGLE_FAN);
-
-    // titik tengah
-    glVertex3f(cx, 0.05f, cz);
-
-    // lingkaran
-    for (int i = 0; i <= 360; i++) {
-        float angle = i * 3.14159f / 180.0f;
-        float x = cx + cos(angle) * radius;
-        float z = cz + sin(angle) * radius;
-        glVertex3f(x, 0.05f, z);
-    }
-    glEnd();
 }

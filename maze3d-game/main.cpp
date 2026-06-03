@@ -3,13 +3,8 @@
 #include <stdio.h>
 
 #include "lighting.h"
-#include "imageloader.h"
-#include "geometri.h"
 #include "hud.h"
-#include "cammove.h"
-#include "coltex.h"
 #include "maze.h"
-#include "tree.h"
 
 // ============================================================
 // Init

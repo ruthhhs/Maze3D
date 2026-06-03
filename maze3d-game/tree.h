@@ -23,6 +23,5 @@ bool checkCircleCollision(float newX, float newZ);
 void initTreeCollision();
 void drawTree(float tx, float tz);
 void drawSmallTree(float tx, float tz);
-void drawSmallTree2(float tx, float tz);
 
 #endif
