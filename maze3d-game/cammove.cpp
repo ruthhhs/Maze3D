@@ -330,7 +330,12 @@ void keyboard(unsigned char key, int xx, int yy)
             }
             break;
         
-        case 't': case 'T': if (developerMode) topView = !topView; break;
+        case 't': case 'T':
+			if (developerMode) 
+			{
+				angle = -180.0;
+				topView = !topView;
+			} break;
     }
 }
 

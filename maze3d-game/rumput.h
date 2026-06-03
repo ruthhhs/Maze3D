@@ -5,6 +5,7 @@
 #define RUMPUT_H_INCLUDED
 
 #include "geometri.h"
+#include "lighting.h"
 
 #define MAX_WALLS 200
 

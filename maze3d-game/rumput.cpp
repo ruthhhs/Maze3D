@@ -4,7 +4,7 @@
 
 #include "rumput.h"
 
-// ================== COLLISION POHON ==================
+// ================== COLLISION RUMPUT ==================
 Rumput rumput[MAX_WALLS];
 int rumputCount = 0;
 
@@ -40,8 +40,11 @@ bool checkRumputCollision(float newX, float newY, float newZ)
 }
 
 
-// ==================== POHON KECIL BANGET ====================
+// ==================== RUMPUT ====================
 void drawRumput(float tx, float tz) {
+	//shadow
+	drawCircleShadow(tx, tz, 0.5f);
+	
     //collision
 	addRumput(tx - 0.2, 4, tz + 0.2, 0.9f);
 

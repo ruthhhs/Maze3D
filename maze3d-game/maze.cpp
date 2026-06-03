@@ -163,7 +163,9 @@ void drawMaze()
     
     drawSmallTree(27, 1);
     
-    drawRumput(25, 1);
+    drawRumput(16, -10);
+    drawRumput(15, -12);
+    drawRumput(7, -9);
     
     // ================= HOLE =================
     drawHole(18, 10, 2.0f);
