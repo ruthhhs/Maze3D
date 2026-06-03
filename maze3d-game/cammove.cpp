@@ -301,8 +301,8 @@ void keyboard(unsigned char key, int xx, int yy)
                 velocityY = jumpPower;
             }
             break;
-            
-        case 't': case 'T': topView = !topView; break;
+        
+        case 't': case 'T': if (developerMode) topView = !topView; break;
     }
 }
 

@@ -3,9 +3,6 @@
 #include <stdio.h>
 
 #include "maze.h"
-#include "hud.h"
-#include "geometri.h"
-#include "tree.h"
 
 void drawMaze()
 {
@@ -162,6 +159,7 @@ void drawMaze()
 	
     // ================= POHON =================
     drawSmallTree2(25, 1);
+    drawSmallTree(27, 1);
     drawTree(27.0, -9);
     drawTree(10, -10);
     

@@ -4,6 +4,9 @@
 #ifndef TREE_H_INCLUDED
 #define TREE_H_INCLUDED
 
+#include "geometri.h"
+#include "lighting.h"
+
 #define MAX_WALLS 200
 
 struct CircleWall {

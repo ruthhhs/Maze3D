@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 #include "tree.h"
-#include "geometri.h"
 
 // ================== COLLISION POHON ==================
 CircleWall circleWalls[MAX_WALLS];
@@ -40,9 +39,13 @@ bool checkCircleCollision(float newX, float newZ)
 
 
 // ==================== POHON BESAR ====================
-void drawTree(float tx, float tz) {\
+void drawTree(float tx, float tz) {
+	//shadow
+	drawCircleShadow(tx, tz, 3.0f);
+	
 	//collision
 	addCircleWall(tx - 0.2, tz + 0.2, 3.0f);
+	
     // batang
     glColor3f(0.40f, 0.25f, 0.08f);
     glPushMatrix();
@@ -78,6 +81,9 @@ void drawTree(float tx, float tz) {\
 
 // ==================== POHON KECIL ====================
 void drawSmallTree(float tx, float tz) {
+	//shadow
+	drawCircleShadow(tx, tz, 1.0f);
+	
     //collision
 	addCircleWall(tx - 0.2, tz + 0.2, 0.9f);
 
@@ -101,6 +107,9 @@ void drawSmallTree(float tx, float tz) {
 
 // ==================== POHON KECIL BANGET ====================
 void drawSmallTree2(float tx, float tz) {
+	//shadow
+	drawCircleShadow(tx, tz, 0.5f);
+	
     //collision
 	addCircleWall(tx - 0.2, tz + 0.2, 0.9f);
 

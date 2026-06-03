@@ -6,9 +6,10 @@
 
 #include "coltex.h"
 #include "cammove.h"
+#include "lighting.h"
 
 // ================== LANTAI ==================
-#define LUAS_LANTAI 65
+#define LUAS_LANTAI 75
 void Grid();
 void lantaiTex(GLuint tex);
 void drawLantai(GLuint tex);

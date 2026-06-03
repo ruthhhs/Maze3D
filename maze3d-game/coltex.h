@@ -4,7 +4,6 @@
 #ifndef COLTEX_H_INCLUDED
 #define COLTEX_H_INCLUDED
 
-#include <GL/glut.h>
 #include "imageloader.h"
 
 // ================== WARNA ==================

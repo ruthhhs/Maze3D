@@ -85,7 +85,7 @@ void drawOverlay(float alpha)
 // main menu
 void displayMainMenu()
 {
-    drawOverlay(0.75f);
+    drawOverlay(0.2f);
 
     glColor3f(kuning.r, kuning.g, kuning.b);
 
@@ -129,26 +129,26 @@ void displayGameOver()
 void drawHUD()
 {
     char buf[128];
-
-    glColor3f(kuning.r, kuning.g, kuning.b);
     
-    renderText(w/2, h/2, "+");
-
+	if (showMainMenu)	{ displayMainMenu();	return;}
+	if (paused)			{ displayPauseMenu();	return;}
+	if (gameOver)		{ displayGameOver();	}
+	
+	glColor3f(kuning.r, kuning.g, kuning.b);
+    
 	if (developerMode)
 	{
 		float angleDeg = angle * (180.0f / 3.14159265f);
 	    sprintf(buf, "X: %.2f  Y: %.2f  Z: %.2f", x, y, z);	renderText(10, h - 20, buf);
 	    sprintf(buf, "Angle: %.1f deg", angleDeg);			renderText(10, h - 40, buf);
 	    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");	renderText(10, h - 60, buf);
+	    
+	    renderText(w/2, h/2, "+");
 		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint | T: Toggle View");
 	}
 	else
 	{
 		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint");
 	}
-    
-	if (showMainMenu)	{ displayMainMenu();	return;}
-	if (paused)			{ displayPauseMenu();	return;}
-	if (gameOver)		{ displayGameOver();	}
 }
 

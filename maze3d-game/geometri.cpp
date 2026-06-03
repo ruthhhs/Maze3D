@@ -54,7 +54,10 @@ void drawLantai(GLuint tex)
 	if(developerMode){
 		Grid();
 	}
-	lantaiTex(tex);
+	else
+	{
+		lantaiTex(tex);
+	}
 }
 
 // ================== COLLISION WALL ==================
@@ -198,6 +201,7 @@ static void Wall(
     float x2, float y2, float z2,
     Color c)
 {
+	drawShadowBox(x1, z1, x2, z2);
     BalokWarna(x1, y1, z1, x2, y2, z2, c);
     addWallFromPoints(x1, z1, x2, z2);
 }
@@ -207,6 +211,7 @@ void WallTex(
     float x2, float y2, float z2,
     GLuint tex)
 {
+	drawShadowBox(x1, z1, x2, z2);
     BalokTex(x1, y1, z1, x2, y2, z2, tex);
     addWallFromPoints(x1, z1, x2, z2);
 }
@@ -263,14 +268,14 @@ void drawHole(float cx, float cz, float radius) {
     glBegin(GL_TRIANGLE_FAN);
 
     // titik tengah
-    glVertex3f(cx, 0.01f, cz);
+    glVertex3f(cx, 0.05f, cz);
 
     // lingkaran
     for (int i = 0; i <= 360; i++) {
         float angle = i * 3.14159f / 180.0f;
         float x = cx + cos(angle) * radius;
         float z = cz + sin(angle) * radius;
-        glVertex3f(x, 0.01f, z);
+        glVertex3f(x, 0.05f, z);
     }
     glEnd();
 }
