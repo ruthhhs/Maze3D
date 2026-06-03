@@ -11,6 +11,7 @@ float angle = 0.0;
 float deltaAngle = 0.0, ratio;
 float x = 10.0f, y = 1.75f, z = -5.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
+float menuAngle = 0.0f;
 
 float deltaPitch = 0.0f;
 float pitch = 0.0f;
@@ -37,6 +38,10 @@ float respawnTimer = 0.0f;
 float startX = x;
 float startY = y;
 float startZ = z;
+
+bool developerMode = false;
+bool showMainMenu = true;
+bool paused = false;
 
 // ======= Rotasi =======
 void orientMe(float ang)
@@ -134,6 +139,19 @@ void Reshape(int w1, int h1)
 }
 
 // ======= Dipanggil tiap frame =======
+void idle()
+{
+    if (showMainMenu)
+    {
+        menuAngle += 0.0001f;
+
+        if (menuAngle > 2.0f * M_PI)
+            menuAngle -= 2.0f * M_PI;
+    }
+
+    glutPostRedisplay();
+}
+
 void updateCamera()
 {
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
@@ -192,9 +210,20 @@ void updateCamera()
 	        respawnTimer = 0.0f;
 	    }
 	}
+	
+	if (showMainMenu)
+	{
+	    float radius = 20.0f;
+	
+	    x = startX + cos(menuAngle) * radius;
+	    z = startZ + sin(menuAngle) * radius;
+	    y = startY + 8.0f;
+	
+	    angle = menuAngle + M_PI;
+	}
 }
 
-// ======= Input keyboard =======
+// ======= Keyboard Press =======
 void pressKey(int key, int xx, int yy)
 {
     switch (key)
@@ -231,10 +260,30 @@ void releaseKey(int key, int xx, int yy)
     }
 }
 
+
+// ======= Keyboard Input =======
 void keyboard(unsigned char key, int xx, int yy)
 {
-	// kalau game over gabole gerak
     if (gameOver) return;
+
+    if (showMainMenu){
+        switch(key)
+        {
+            case '1':	developerMode = false; 	showMainMenu = false;	break;
+            case '2':	developerMode = true; 	showMainMenu = false;	break;
+            case '3':	exit(0);	break;
+        }
+        return;}
+
+    if (paused){
+        switch(key)
+        {
+            case '1':	paused = false;	break;
+            case '2':	paused = false;	showMainMenu = true;	break;
+        }
+        return;}
+
+    if (key == 27) {paused = true;}
     
     switch (key)
     {
@@ -252,7 +301,6 @@ void keyboard(unsigned char key, int xx, int yy)
             break;
             
         case 't': case 'T': topView = !topView; break;
-        case 27: exit(0); break; // ESC untuk keluar
     }
 }
 

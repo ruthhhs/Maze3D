@@ -10,6 +10,10 @@ extern int sisa;
 
 void renderChar(char c);
 void renderText(int screenX, int screenY, const char *text);
+
+void drawOverlay(float alpha);
+void displayMainMenu();
+void displayGameOver();
 void drawHUD();
 
 #endif

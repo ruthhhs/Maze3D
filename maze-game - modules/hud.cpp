@@ -23,7 +23,6 @@ void renderText(int screenX, int screenY, const char *text)
     glPushMatrix();
     glLoadIdentity();
 
-    // Nonaktifkan lighting & depth test supaya teks selalu tampil di atas
     glDisable(GL_LIGHTING);
     glDisable(GL_DEPTH_TEST);
 
@@ -44,9 +43,10 @@ void renderText(int screenX, int screenY, const char *text)
     glPopMatrix();
 }
 
-// ================== DISPLAY GAME OVER ==================
-void displayGameOver() {
-    // overlay hitam
+// ================== DISPLAYS ==================
+// overlay
+void drawOverlay(float alpha)
+{
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
@@ -61,27 +61,17 @@ void displayGameOver() {
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	    glColor4f(0.0f, 0.0f, 0.0f, 0.5f);
-	    glBegin(GL_QUADS);
-	        glVertex2i(0, 0);
-	        glVertex2i(w, 0);
-	        glVertex2i(w, h);
-	        glVertex2i(0, h);
-    	glEnd();
+
+    glColor4f(0.0f, 0.0f, 0.0f, alpha);
+    glBegin(GL_QUADS);
+        glVertex2i(0, 0);
+        glVertex2i(w, 0);
+        glVertex2i(w, h);
+        glVertex2i(0, h);
+    glEnd();
+
     glDisable(GL_BLEND);
 
-    // text respawn
-    glColor3f(merah.r, merah.g, merah.b);
-    renderText(w/2 - 40, h/2 + 100, "GAME OVER");
-    
-    char countdown[64];
-	int sisa = (int)ceil(3.0f - respawnTimer);
-	
-	glColor3f(kuning.r, kuning.g, kuning.b);
-    sprintf(countdown, "Restart in %d", sisa);
-	renderText(w/2 - 50, h/2 + 80, countdown);
-
-    // restore state
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
 
@@ -92,30 +82,83 @@ void displayGameOver() {
     glPopMatrix();
 }
 
-// ================== DISPLAY HUD ==================
+// main menu
+void displayMainMenu()
+{
+    drawOverlay(0.75f);
+
+    glColor3f(kuning.r, kuning.g, kuning.b);
+
+    renderText(w/2 - 60, h/2 + 100, "MAIN MENU");
+
+    renderText(w/2 - 90, h/2 + 40,
+               "[1] Play as Player");
+
+    renderText(w/2 - 90, h/2,
+               "[2] Play as Developer");
+
+    renderText(w/2 - 90, h/2 - 40,
+               "[3] Exit");
+}
+
+// pause
+void displayPauseMenu()
+{
+    drawOverlay(0.6f);
+
+    glColor3f(kuning.r, kuning.g, kuning.b);
+
+    renderText(w/2 - 50, h/2 + 80, "PAUSED");
+
+    renderText(w/2 - 100, h/2 + 20,
+               "[1] Return to Play");
+
+    renderText(w/2 - 100, h/2 - 20,
+               "[2] Back to Main Menu");
+}
+
+// game over
+void displayGameOver()
+{
+    drawOverlay(0.5f);
+
+    glColor3f(merah.r, merah.g, merah.b);
+    renderText(w/2 - 40, h/2 + 100, "GAME OVER");
+
+    char countdown[64];
+    int sisa = (int)ceil(3.0f - respawnTimer);
+
+    glColor3f(kuning.r, kuning.g, kuning.b);
+    sprintf(countdown, "Restart in %d", sisa);
+    renderText(w/2 - 50, h/2 + 80, countdown);
+}
+
+// hud
 void drawHUD()
 {
     char buf[128];
 
     // Warna teks: kuning muda
     glColor3f(kuning.r, kuning.g, kuning.b);
-
-	// For development
-	float angleDeg = angle * (180.0f / 3.14159265f);
-    sprintf(buf, "X: %.2f  Y: %.2f  Z: %.2f", x, y, z);	renderText(10, h - 20, buf);
-    sprintf(buf, "Angle: %.1f deg", angleDeg);			renderText(10, h - 40, buf);
-    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");	renderText(10, h - 60, buf);
     
     renderText(w/2, h/2, "+");
-    
-    renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint | T: Toggle View");
 
-	// For player
-//    renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint");
-
-	// game over
-	if (gameOver){
-		displayGameOver();
+	// For development
+	if (developerMode)
+	{
+		float angleDeg = angle * (180.0f / 3.14159265f);
+	    sprintf(buf, "X: %.2f  Y: %.2f  Z: %.2f", x, y, z);	renderText(10, h - 20, buf);
+	    sprintf(buf, "Angle: %.1f deg", angleDeg);			renderText(10, h - 40, buf);
+	    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");	renderText(10, h - 60, buf);
+		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint | T: Toggle View");
 	}
+	else
+	{
+		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint");
+	}
+    
+	if (showMainMenu)	{ displayMainMenu();	return;}
+	if (paused)			{ displayPauseMenu();	return;}
+	if (gameOver)		{ displayGameOver();	}
 }
 

@@ -11,6 +11,7 @@ extern float ratio;
 extern float x, y, z;
 extern float lx, ly, lz;
 extern int h, w;
+extern float menuAngle;
 
 extern int sprint;
 extern float velocityY;
@@ -29,12 +30,17 @@ extern float startX;
 extern float startY;
 extern float startZ;
 
+extern bool developerMode;
+extern bool showMainMenu;
+extern bool paused;
+
 // ======= Camera =======
 void orientMe(float ang);
 void applyCamera();
 void moveMeFlat(int i);
 void strafeMe(int i);
 void Reshape(int w1, int h1);
+void idle();
 void updateCamera();
 
 // ======= Input keyboard =======

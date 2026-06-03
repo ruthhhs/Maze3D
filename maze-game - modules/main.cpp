@@ -98,7 +98,7 @@ int main(int argc, char** argv)
     glutIgnoreKeyRepeat(1);
 
     glutDisplayFunc(display);
-    glutIdleFunc(display);
+    glutIdleFunc(idle);
     glutReshapeFunc(Reshape);
 
     glutSpecialFunc(pressKey);

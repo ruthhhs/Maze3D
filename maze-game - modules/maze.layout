@@ -2,36 +2,66 @@
 <<<<<<< HEAD
 CursorCol=29
 CursorRow=26
+TopLine=82
+=======
+<<<<<<< HEAD
+CursorCol=29
+CursorRow=26
 TopLine=1
 =======
 CursorCol=20
 CursorRow=229
 TopLine=214
 >>>>>>> origin/azka
+>>>>>>> main
 LeftChar=1
 Open=1
 Top=0
 [Editor_0]
+<<<<<<< HEAD
 CursorCol=1
 CursorRow=6
+TopLine=1
+=======
+CursorCol=1
+CursorRow=6
+<<<<<<< HEAD
 TopLine=73
+=======
+TopLine=1
+>>>>>>> main
+>>>>>>> origin/azka
 LeftChar=1
 Open=1
 Top=0
 [Editor_2]
+<<<<<<< HEAD
 CursorCol=21
 CursorRow=56
 TopLine=26
+=======
+CursorCol=21
+CursorRow=56
+TopLine=26
+>>>>>>> main
 LeftChar=1
 Open=1
 Top=0
 [Editors]
-Focused=7
+<<<<<<< HEAD
+Focused=13
+=======
+Focused=13
+<<<<<<< HEAD
+Order=0,1,2,7,8,9,10,5,6,11,12,13,14
+=======
+>>>>>>> origin/azka
 <<<<<<< HEAD
 Order=0,1,2,7,8,9,10,5,6,11,12,13,14
 =======
 Order=0,1,2,7,8,9,10,5,6,11,12,3
 >>>>>>> origin/azka
+>>>>>>> main
 [Editor_3]
 Open=0
 Top=0
@@ -49,9 +79,15 @@ Top=0
 [Editor_5]
 Open=1
 Top=0
+<<<<<<< HEAD
+CursorCol=3
+CursorRow=114
+TopLine=77
+=======
 CursorCol=24
 CursorRow=78
 TopLine=1
+>>>>>>> main
 LeftChar=1
 [Editor_6]
 Open=1
@@ -62,24 +98,43 @@ TopLine=1
 LeftChar=1
 [Editor_7]
 Open=1
-Top=1
+<<<<<<< HEAD
+Top=0
+CursorCol=1
+CursorRow=254
+TopLine=205
+=======
+Top=0
+<<<<<<< HEAD
+CursorCol=1
+CursorRow=213
+TopLine=229
+=======
 CursorCol=34
 CursorRow=197
-TopLine=233
+TopLine=178
+>>>>>>> main
+>>>>>>> origin/azka
 LeftChar=1
 [Editor_8]
 Open=1
 Top=0
 CursorCol=4
 CursorRow=5
-TopLine=1
+TopLine=9
 LeftChar=1
 [Editor_9]
 Open=1
 Top=0
+<<<<<<< HEAD
+CursorCol=1
+CursorRow=5
+TopLine=34
+=======
 CursorCol=1
 CursorRow=5
 TopLine=28
+>>>>>>> main
 LeftChar=1
 [Editor_10]
 Open=1
@@ -92,13 +147,23 @@ LeftChar=1
 Open=1
 Top=0
 <<<<<<< HEAD
+CursorCol=20
+CursorRow=169
+TopLine=4
+=======
+<<<<<<< HEAD
 CursorCol=24
 CursorRow=164
 =======
 CursorCol=5
 CursorRow=22
 >>>>>>> origin/azka
+<<<<<<< HEAD
 TopLine=1
+=======
+TopLine=126
+>>>>>>> main
+>>>>>>> origin/azka
 LeftChar=1
 [Editor_12]
 Open=1
@@ -109,15 +174,29 @@ TopLine=1
 LeftChar=1
 [Editor_13]
 Open=1
-Top=0
+Top=1
+<<<<<<< HEAD
+CursorCol=7
+CursorRow=61
+TopLine=55
+=======
 CursorCol=1
 CursorRow=1
 TopLine=56
+>>>>>>> main
 LeftChar=1
 [Editor_14]
 Open=1
 Top=0
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
 CursorCol=1
 CursorRow=13
-TopLine=1
+=======
+>>>>>>> origin/azka
+CursorCol=1
+CursorRow=13
+>>>>>>> main
+TopLine=14
 LeftChar=1
