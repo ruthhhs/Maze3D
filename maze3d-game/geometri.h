@@ -5,11 +5,13 @@
 #define GEOMETRI_H_INCLUDED
 
 #include "coltex.h"
+#include "cammove.h"
 
-// ================== GRID ==================
-
-#define LUAS_GRID 65
+// ================== LANTAI ==================
+#define LUAS_LANTAI 65
 void Grid();
+void lantaiTex(GLuint tex);
+void drawLantai(GLuint tex);
 
 // ================== COLLISION ==================
 #define MAX_WALLS 200

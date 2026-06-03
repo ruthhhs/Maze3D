@@ -43,8 +43,7 @@ void renderText(int screenX, int screenY, const char *text)
     glPopMatrix();
 }
 
-// ================== DISPLAYS ==================
-// overlay
+// ================== OVERLAY HITAM ==================
 void drawOverlay(float alpha)
 {
     glMatrixMode(GL_PROJECTION);
@@ -82,6 +81,7 @@ void drawOverlay(float alpha)
     glPopMatrix();
 }
 
+// ================== DISPLAYS ==================
 // main menu
 void displayMainMenu()
 {
@@ -90,15 +90,10 @@ void displayMainMenu()
     glColor3f(kuning.r, kuning.g, kuning.b);
 
     renderText(w/2 - 60, h/2 + 100, "MAIN MENU");
-
-    renderText(w/2 - 90, h/2 + 40,
-               "[1] Play as Player");
-
-    renderText(w/2 - 90, h/2,
-               "[2] Play as Developer");
-
-    renderText(w/2 - 90, h/2 - 40,
-               "[3] Exit");
+    
+    renderText(w/2 - 90, h/2 + 40,	"[1] Play as Player");
+    renderText(w/2 - 90, h/2,		"[2] Play as Developer");
+    renderText(w/2 - 90, h/2 - 40,	"[3] Exit");
 }
 
 // pause
@@ -110,11 +105,8 @@ void displayPauseMenu()
 
     renderText(w/2 - 50, h/2 + 80, "PAUSED");
 
-    renderText(w/2 - 100, h/2 + 20,
-               "[1] Return to Play");
-
-    renderText(w/2 - 100, h/2 - 20,
-               "[2] Back to Main Menu");
+    renderText(w/2 - 100, h/2 + 20,	"[1] Return to Play");
+    renderText(w/2 - 100, h/2 - 20,	"[2] Back to Main Menu");
 }
 
 // game over
@@ -133,17 +125,15 @@ void displayGameOver()
     renderText(w/2 - 50, h/2 + 80, countdown);
 }
 
-// hud
+// ================== DISPLAY HUD ==================
 void drawHUD()
 {
     char buf[128];
 
-    // Warna teks: kuning muda
     glColor3f(kuning.r, kuning.g, kuning.b);
     
     renderText(w/2, h/2, "+");
 
-	// For development
 	if (developerMode)
 	{
 		float angleDeg = angle * (180.0f / 3.14159265f);

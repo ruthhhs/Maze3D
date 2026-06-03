@@ -4,14 +4,14 @@
 
 #include "geometri.h"
 
-// ================== GRID ==================
+// ================== LANTAI ==================
 void Grid()
 {
     double i;
-    const float Z_MIN = -LUAS_GRID;
-    const float Z_MAX = LUAS_GRID;
-    const float X_MIN = -LUAS_GRID;
-    const float X_MAX = LUAS_GRID;
+    const float Z_MIN = -LUAS_LANTAI;
+    const float Z_MAX = LUAS_LANTAI;
+    const float X_MIN = -LUAS_LANTAI;
+    const float X_MAX = LUAS_LANTAI;
     const float gap = 2;
 
     glColor3f(0.5, 0.5, 0.5);
@@ -19,13 +19,42 @@ void Grid()
     glBegin(GL_LINES);
     for (float i = X_MIN; i <= X_MAX; i += 1.5)
     {
-        glVertex3f(i, 0, -LUAS_GRID);
-        glVertex3f(i, 0, LUAS_GRID);
+        glVertex3f(i, 0, -LUAS_LANTAI);
+        glVertex3f(i, 0, LUAS_LANTAI);
 
-        glVertex3f(-LUAS_GRID, 0, i);
-        glVertex3f(LUAS_GRID, 0, i);
+        glVertex3f(-LUAS_LANTAI, 0, i);
+        glVertex3f(LUAS_LANTAI, 0, i);
     }
     glEnd();
+}
+
+void lantaiTex(GLuint tex)
+{
+    float size = LUAS_LANTAI;
+    float repeat = size / 4.0f;
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, tex);
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    glBegin(GL_QUADS);
+        glNormal3f(0,1,0);
+        glTexCoord2f(0,0);			glVertex3f(-size, 0, -size);
+        glTexCoord2f(repeat,0);		glVertex3f( size, 0, -size);
+        glTexCoord2f(repeat,repeat);glVertex3f( size, 0,  size);
+        glTexCoord2f(0,repeat);		glVertex3f(-size, 0,  size);
+    glEnd();
+
+    glDisable(GL_TEXTURE_2D);
+}
+
+void drawLantai(GLuint tex)
+{
+	if(developerMode){
+		Grid();
+	}
+	lantaiTex(tex);
 }
 
 // ================== COLLISION WALL ==================

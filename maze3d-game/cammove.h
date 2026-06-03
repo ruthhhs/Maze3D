@@ -41,6 +41,7 @@ void moveMeFlat(int i);
 void strafeMe(int i);
 void Reshape(int w1, int h1);
 void idle();
+void respawnPoint();
 void updateCamera();
 
 // ======= Input keyboard =======

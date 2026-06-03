@@ -46,6 +46,16 @@ void initLighting()
 void disableLighting() { glDisable(GL_LIGHTING); }
 void enableLighting()  { glEnable(GL_LIGHTING);  }
 
+// ============================================================
+// Init
+// ============================================================
+void initGL(void)
+{
+    glEnable(GL_DEPTH_TEST);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glShadeModel(GL_SMOOTH);
+    glClearColor(skyblue.r, skyblue.g, skyblue.b, 1.00f);
+}
 
 // ============================================================
 // Display
@@ -56,33 +66,22 @@ void display()
 	updateCamera();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     applyCamera();
 
     disableLighting();
-    Grid();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texWall);
-	glDisable(GL_TEXTURE_2D);
+    drawLantai(texGrass);
     enableLighting();
 
     resetWalls();
     drawMaze();
+    
+    drawHUD();
 
     glutSwapBuffers();
-}
-
-// ============================================================
-// Init
-// ============================================================
-void init(void)
-{
-    glEnable(GL_DEPTH_TEST);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glShadeModel(GL_SMOOTH);
-    glClearColor(0.05f, 0.05f, 0.1f, 1.0f);
 }
 
 // ============================================================
@@ -97,6 +96,7 @@ int main(int argc, char** argv)
     
     glutIgnoreKeyRepeat(1);
 
+	// calbacks
     glutDisplayFunc(display);
     glutIdleFunc(idle);
     glutReshapeFunc(Reshape);
@@ -106,9 +106,10 @@ int main(int argc, char** argv)
     glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
 
+	// inits
+    initGL();
     initLighting();
     initRendering();
-    init();
     
     lastTime = glutGet(GLUT_ELAPSED_TIME);
 

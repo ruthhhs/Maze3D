@@ -12,6 +12,7 @@ Color putih = {1.0f, 1.0f, 1.0f};
 Color abu   = {0.5f, 0.5f, 0.5f};
 Color kuning= {1.0f, 1.0f, 0.0f};
 
+Color skyblue= {0.65f, 0.65f, 1.0f};
 
 // ================== TEXTURE ==================
 GLuint loadTexture(Image* image)
@@ -43,6 +44,7 @@ GLuint loadTexture(Image* image)
 
 #define TEX_PATH "tex/"
 GLuint texWall;
+GLuint texGrass;
 
 void initRendering()
 {
@@ -59,8 +61,11 @@ void initRendering()
 	img = loadBMP(TEX_PATH "leaves.bmp");
 	texWall = loadTexture(img);
 	printf("texWall = %d\n", texWall);
-	delete img;
 	
+	img = loadBMP(TEX_PATH "grass.bmp");
+	texGrass = loadTexture(img);
+	printf("texGrass = %d\n", texGrass);
+	delete img;	
 }
 
 void handleResize(int w, int h) {

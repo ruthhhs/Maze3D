@@ -8,15 +8,16 @@
 
 // ======= Variables =======
 float angle = 0.0;
-float deltaAngle = 0.0, ratio;
-float x = 10.0f, y = 1.75f, z = -5.0f;
+float deltaAngle = 0.0;
+float ratio;
+float x = 10.0f, y = 1.75f, z = -16.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
+int h, w;
 float menuAngle = 0.0f;
 
 float deltaPitch = 0.0f;
 float pitch = 0.0f;
 
-int h, w;
 bool keyW = false;
 bool keyS = false;
 bool keyA = false;
@@ -81,9 +82,6 @@ void moveMeFlat(int i)
     float nextX = x + i * lx * speed;
     float nextZ = z + i * lz * speed;
 
-//    if (!checkCollision(nextX, z)) x = nextX;
-//    if (!checkCollision(x, nextZ)) z = nextZ;
-
     if (!checkCollision(nextX, z) &&
         !checkCircleCollision(nextX, z))
     {
@@ -106,8 +104,6 @@ void strafeMe(int i)
     float nextX = x + i * lz * speed;
     float nextZ = z - i * lx * speed;
 
-//    if (!checkCollision(nextX, z)) x = nextX;
-//    if (!checkCollision(x, nextZ)) z = nextZ;
     if (!checkCollision(nextX, z) &&
         !checkCircleCollision(nextX, z))
     {
@@ -138,7 +134,7 @@ void Reshape(int w1, int h1)
     glMatrixMode(GL_MODELVIEW);
 }
 
-// ======= Dipanggil tiap frame =======
+// ======= Idle =======
 void idle()
 {
     if (showMainMenu)
@@ -152,6 +148,20 @@ void idle()
     glutPostRedisplay();
 }
 
+// ======= Respawn =======
+void respawnPoint()
+{
+    x = startX;
+    y = startY;
+    z = startZ;
+    
+    angle = 0.0;
+    
+    gameOver = false;
+    respawnTimer = 0.0f;
+}
+
+// ======= Main Camera Update =======
 void updateCamera()
 {
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
@@ -172,8 +182,7 @@ void updateCamera()
 	if (keyD) strafeMe(-2);
 
 	// jump physics
-    if (isJumping)
-    {
+    if (isJumping){
         velocityY -= gravity * deltaTime;
         y += velocityY * deltaTime;
 
@@ -193,26 +202,19 @@ void updateCamera()
 	
 	// game over
 	if (gameOver) {
-		
 		// hole
 	    y -= 5.0f * deltaTime;
 	    if (y <= -3.0f) {
 	        y = -3.0f;
 	    }
 
-		// timer respawn
 	    respawnTimer += deltaTime;
 	    if (respawnTimer >= 3.0f) {
-	        x = startX;
-	        y = startY;
-	        z = startZ;
-	        gameOver = false;
-	        respawnTimer = 0.0f;
+	        respawnPoint();
 	    }
 	}
 	
-	if (showMainMenu)
-	{
+	if (showMainMenu){
 	    float radius = 20.0f;
 	
 	    x = startX + cos(menuAngle) * radius;
@@ -269,9 +271,9 @@ void keyboard(unsigned char key, int xx, int yy)
     if (showMainMenu){
         switch(key)
         {
-            case '1':	developerMode = false; 	showMainMenu = false;	break;
-            case '2':	developerMode = true; 	showMainMenu = false;	break;
-            case '3':	exit(0);	break;
+            case '1':	developerMode = false; 	showMainMenu = false; respawnPoint();	break;
+            case '2':	developerMode = true; 	showMainMenu = false; respawnPoint();	break;
+            case '3':	exit(0);break;
         }
         return;}
 
