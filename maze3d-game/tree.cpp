@@ -47,7 +47,7 @@ void drawTree(float tx, float tz) {
 	addCircleWall(tx - 0.2, tz + 0.2, 3.0f);
 	
     // batang
-    glColor3f(0.40f, 0.25f, 0.08f);
+    glColor3f(batang.r, batang.g, batang.b);
     glPushMatrix();
     glTranslatef(tx, 0, tz);
     glRotatef(-90, 1, 0, 0);
@@ -88,7 +88,7 @@ void drawSmallTree(float tx, float tz) {
 	addCircleWall(tx - 0.2, tz + 0.2, 0.9f);
 
     // batang
-    glColor3f(0.35f, 0.20f, 0.07f);
+    glColor3f(batang.r, batang.g, batang.b);
     glPushMatrix();
     glTranslatef(tx, 0, tz);
     glRotatef(-90, 1, 0, 0);
@@ -98,7 +98,7 @@ void drawSmallTree(float tx, float tz) {
     glPopMatrix();
 
     // daun
-    glColor3f(0.18f, 0.52f, 0.10f);
+    glColor3f(daun.r, daun.g, daun.b);
     glPushMatrix();
     glTranslatef(tx, 2.0f, tz);
     glutSolidSphere(1.2f, 8, 7);

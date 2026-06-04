@@ -49,7 +49,7 @@ void drawRumput(float tx, float tz) {
 	addRumput(tx - 0.2, 4, tz + 0.2, 0.9f);
 
     // daun
-    glColor3f(0.18f, 0.52f, 0.10f);
+    glColor3f(daun.r, daun.g, daun.b);
     glPushMatrix();
     glTranslatef(tx, 0.0f, tz);
     glutSolidSphere(0.3f, 8, 7);

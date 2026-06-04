@@ -19,6 +19,8 @@ extern Color abu;
 extern Color kuning;
 
 extern Color skyblue;
+extern Color daun;
+extern Color batang;
 
 // ================== TEXTURE ==================
 extern GLuint texGrass;

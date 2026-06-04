@@ -55,4 +55,20 @@ void WallTex(
     float x2, float y2, float z2,
     GLuint tex);
 
+// ================== GOAL AREA ==================
+#define MAX_GOALS 10
+struct GoalArea
+{
+    float minX, maxX;
+    float minZ, maxZ;
+};
+
+extern GoalArea goals[MAX_GOALS];
+
+extern int goalCount;
+extern bool gameFinished;
+
+void addGoal(float minX, float maxX, float minZ, float maxZ);
+int checkGoal(float playerX, float playerZ);
+
 #endif

@@ -83,7 +83,7 @@ void drawOverlay(float alpha)
 // main menu
 void displayMainMenu()
 {
-    drawOverlay(0.3f);
+    drawOverlay(0.4f);
 
     glColor3f(kuning.r, kuning.g, kuning.b);
 

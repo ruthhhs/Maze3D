@@ -5,6 +5,7 @@
 #define CAMMOVE_H_INCLUDED
 
 #include "maze.h"
+#include "geometri.h"
 
 // ======= Variables =======
 extern float angle;

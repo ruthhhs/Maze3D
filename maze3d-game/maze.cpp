@@ -175,4 +175,10 @@ void drawMaze()
     drawSpike(4, 11);
     drawSpike(3, 11);
     drawSpike(2, 11);
+    
+    // ================= GOAL =================
+//    addGoal(-43, -41, -14, -5); // kiri
+//	addGoal(7, 14, -61, -59);	// atas
+//	addGoal(67, 69, -7, 12);	// kanan
+//	addGoal(14, 21, 50, 52);	// bawah
 }

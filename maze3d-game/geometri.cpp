@@ -214,3 +214,33 @@ void WallTex(
     BalokTex(x1, y1, z1, x2, y2, z2, tex);
     addWallFromPoints(x1, z1, x2, z2);
 }
+
+// ================== GOAL AREA ==================
+GoalArea goals[MAX_GOALS];
+int goalCount = 0;
+bool gameFinished = false;
+
+void addGoal(float minX, float maxX,
+             float minZ, float maxZ)
+{
+    goals[goalCount].minX = minX;
+    goals[goalCount].maxX = maxX;
+    goals[goalCount].minZ = minZ;
+    goals[goalCount].maxZ = maxZ;
+    goalCount++;
+}
+
+int checkGoal(float playerX, float playerZ)
+{
+    for (int i = 0; i < goalCount; i++)
+    {
+        if (playerX + playerRadius > goals[i].minX &&
+            playerX - playerRadius < goals[i].maxX &&
+            playerZ + playerRadius > goals[i].minZ &&
+            playerZ - playerRadius < goals[i].maxZ)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}

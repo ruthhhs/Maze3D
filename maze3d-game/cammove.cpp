@@ -242,12 +242,19 @@ void updateCamera()
 	    }
 	}
 	
+	if (!gameFinished && checkGoal(x, z))
+    {
+        gameFinished = true;
+        printf("GAME SELESAI!\n");
+    }
+	
 	if (showMainMenu){
 	    float radius = 20.0f;
 	
 	    x = startX + cos(menuAngle) * radius;
 	    z = startZ + sin(menuAngle) * radius;
-	    y = startY + 8.0f;
+	    y = startY + 7.0f;
+	    pitch = -0.5f;
 	
 	    angle = menuAngle + M_PI;
 	}
@@ -333,7 +340,6 @@ void keyboard(unsigned char key, int xx, int yy)
         case 't': case 'T':
 			if (developerMode) 
 			{
-				angle = -180.0;
 				topView = !topView;
 			} break;
     }
