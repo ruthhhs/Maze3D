@@ -163,9 +163,8 @@ void drawMaze()
     
     drawSmallTree(27, 1);
     
-    drawRumput(16, -10);
-    drawRumput(15, -12);
-    drawRumput(7, -9);
+    drawSemak(16, -10);
+    drawSemak(15, -12);
     
     // ================= HOLE =================
     drawHole(18, 10, 2.0f);
@@ -175,4 +174,10 @@ void drawMaze()
     drawSpike(4, 11);
     drawSpike(3, 11);
     drawSpike(2, 11);
+    
+	// ================= FIREWORK =================
+
+	firework(68.5f, -9.5f, 9.0f, 0);   // langsung
+	firework(67.0f, -9.0f, 10.0f, 60); // jeda 1 detik
+	firework(69.0f, 10.0f, 8.0f, 120); // jeda 2 detik
 }

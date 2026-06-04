@@ -7,9 +7,11 @@
 #include "hud.h"
 #include "geometri.h"
 #include "tree.h"
-#include "rumput.h"
 #include "spike.h"
 #include "hole.h"
+#include "semak.h"
+#include "firework.h"
+#include "chest.h"
 
 void drawMaze();
 
