@@ -76,51 +76,51 @@ void applyCamera()
     }
 }
 
-// ======= Maju / mundur =======
-void moveMeFlat(int i)
-{
-    float baseSpeed = sprint ? 8.0f : 5.0f;
-    float speed = baseSpeed * deltaTime;
-
-    float nextX = x + i * lx * speed;
-    float nextZ = z + i * lz * speed;
-
-    if (!checkCollision(nextX, z) &&
-        !checkCircleCollision(nextX, z) &&
-        !checkSemakCollision(nextX, y, z))
-    {
-        x = nextX;
-    }
-
-    if (!checkCollision(x, nextZ) &&
-        !checkCircleCollision(x, nextZ) &&
-        !checkSemakCollision(x, y, nextZ))
-    {
-        z = nextZ;
-    }
-}
-
-// ======= Strafe =======
-void strafeMe(int i)
-{
-    float baseSpeed = sprint ? 7.0f : 4.0f;
-    float speed = baseSpeed * deltaTime;
-
-    float nextX = x + i * lz * speed;
-    float nextZ = z - i * lx * speed;
-
-    if (!checkCollision(nextX, z) &&
-        !checkCircleCollision(nextX, z))
-    {
-        x = nextX;
-    }
-
-    if (!checkCollision(x, nextZ) &&
-        !checkCircleCollision(x, nextZ))
-    {
-        z = nextZ;
-    }
-}
+	// ======= Maju / mundur =======
+	void moveMeFlat(int i)
+	{
+	    float baseSpeed = sprint ? 8.0f : 5.0f;
+	    float speed = baseSpeed * deltaTime;
+	
+	    float nextX = x + i * lx * speed;
+	    float nextZ = z + i * lz * speed;
+	
+	    if (!checkCollision(nextX, z) &&
+	        !checkCircleCollision(nextX, z) &&
+	        !checkSemakCollision(nextX, y, z))
+	    {
+	        x = nextX;
+	    }
+	
+	    if (!checkCollision(x, nextZ) &&
+	        !checkCircleCollision(x, nextZ) &&
+	        !checkSemakCollision(x, y, nextZ))
+	    {
+	        z = nextZ;
+	    }
+	}
+	
+	// ======= Strafe =======
+	void strafeMe(int i)
+	{
+	    float baseSpeed = sprint ? 7.0f : 4.0f;
+	    float speed = baseSpeed * deltaTime;
+	
+	    float nextX = x + i * lz * speed;
+	    float nextZ = z - i * lx * speed;
+	
+	    if (!checkCollision(nextX, z) &&
+	        !checkCircleCollision(nextX, z))
+	    {
+	        x = nextX;
+	    }
+	
+	    if (!checkCollision(x, nextZ) &&
+	        !checkCircleCollision(x, nextZ))
+	    {
+	        z = nextZ;
+	    }
+	}
 
 // ======= Reshape =======
 void Reshape(int w1, int h1)
@@ -154,7 +154,7 @@ void idle()
 
 // ======= Respawn =======
 void respawnPoint()
-{
+{	
     x = startX;
     y = startY;
     z = startZ;
@@ -331,6 +331,14 @@ void keyboard(unsigned char key, int xx, int yy)
             case '1':	paused = false;	break;
             case '2':	paused = false;	respawnPoint();	break;
             case '3':	paused = false;	showMainMenu = true;	break;
+        }
+        return;}
+        
+    if (winGame){
+        switch(key)
+        {
+            case '1':	paused = false;	respawnPoint();	break;
+            case '2':	paused = false;	showMainMenu = true;	break;
         }
         return;}
 

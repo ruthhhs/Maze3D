@@ -124,6 +124,18 @@ void displayGameOver()
     renderText(w/2 - 50, h/2 + 80, countdown);
 }
 
+// goal
+void displayWinGame()
+{
+	drawOverlay(0.2f);
+	
+	glColor3f(kuning.r, kuning.g, kuning.b);
+    renderText(w/2 - 50, h/2 + 100, "GAME FINISHED !");
+    
+    renderText(w/2 - 100, h/2,		"[1] Play Again");
+    renderText(w/2 - 100, h/2 - 40,	"[2] Back to Main Menu");
+}
+
 // ================== DISPLAY HUD ==================
 void drawHUD()
 {
@@ -132,6 +144,7 @@ void drawHUD()
 	if (showMainMenu)	{ displayMainMenu();	return;}
 	if (paused)			{ displayPauseMenu();	return;}
 	if (gameOver)		{ displayGameOver();	}
+	if (winGame)		{ displayWinGame();		}
 	
 	glColor3f(kuning.r, kuning.g, kuning.b);
 	renderText(w/2, h/2, "+");

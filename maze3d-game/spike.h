@@ -4,6 +4,8 @@
 #ifndef SPIKE_H
 #define SPIKE_H
 
+#include "cammove.h"
+
 #define MAX_SPIKES 100
 
 typedef struct {

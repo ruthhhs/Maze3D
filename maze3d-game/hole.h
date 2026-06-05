@@ -4,6 +4,8 @@
 #ifndef HOLE_H_INCLUDED
 #define HOLE_H_INCLUDED
 
+#include "cammove.h"
+
 #define MAX_HOLES 50
 
 typedef struct {

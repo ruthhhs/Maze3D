@@ -248,8 +248,12 @@ void drawMaze()
     drawTree(54.0, 12.0);
     
     // ================= SEMAK =================
-    drawSemak(16, -10);
-    drawSemak(15, -12);
+    drawSemak(16, -2);
+    drawSemak(14, -2.7);
+    drawSemak(16, -17);
+    drawSemak(12, -16);
+    drawSemak(3, -17);
+    drawSemak(6.2, -2.3);
     
     // ================= HOLE =================
     drawHole(24.5, -13.5, 1.75f);

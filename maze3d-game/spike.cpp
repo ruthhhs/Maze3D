@@ -54,6 +54,8 @@ void drawSpike(float x, float z) {
 }
 
 int checkSpikeCollision(float px, float py, float pz) {
+	if (developerMode) return 0;
+	
     for (int i = 0; i < spikeCount; i++) {
         float sx = spikes[i].x;
         float sz = spikes[i].z;

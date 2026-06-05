@@ -25,6 +25,8 @@ void addHole(float x1, float y1, float z1, float x2, float y2, float z2) {
 }
 
 int checkHole(float px, float py, float pz) {
+	if (developerMode) return 0;
+	
     for (int i = 0; i < holeCount; i++) {
 
         if (

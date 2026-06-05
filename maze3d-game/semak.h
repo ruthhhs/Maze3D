@@ -3,7 +3,8 @@
 
 #define MAX_WALLS 100
 
-#include "lighting.h"
+//#include "lighting.h"
+#include "cammove.h"
 
 typedef struct
 {

@@ -88,6 +88,8 @@ void addWallFromPoints(float x1, float z1, float x2, float z2)
 
 int checkCollision(float nextX, float nextZ)
 {
+	if (developerMode) return false;
+	
     for (int i = 0; i < wallCount; i++)
     {
         if (nextX + playerRadius > walls[i].minX &&
@@ -232,6 +234,8 @@ void addGoal(float minX, float maxX,
 
 int checkGoal(float playerX, float playerZ)
 {
+	if (developerMode) return 0;
+	
 	printf("goalCount = %d\n", goalCount);
 	
     for (int i = 0; i < goalCount; i++)

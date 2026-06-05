@@ -9,7 +9,7 @@
 #include "lighting.h"
 
 // ================== LANTAI ==================
-#define LUAS_LANTAI 75
+#define LUAS_LANTAI 85
 void Grid();
 void lantaiTex(GLuint tex);
 void drawLantai(GLuint tex);

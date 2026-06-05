@@ -26,6 +26,8 @@ bool checkSemakCollision(float newX,
                          float newY,
                          float newZ)
 {
+	if (developerMode) return false;
+	
     for (int i = 0; i < semakWallCount; i++)
     {
         float dx = newX - semakWalls[i].x;

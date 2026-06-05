@@ -21,6 +21,8 @@ void addCircleWall(float x, float z, float radius)
 
 bool checkCircleCollision(float newX, float newZ)
 {
+	if (developerMode) return false;
+	
     for (int i = 0; i < circleWallCount; i++)
     {
         float dx = newX - circleWalls[i].x;
