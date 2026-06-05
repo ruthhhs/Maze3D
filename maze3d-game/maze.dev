@@ -240,17 +240,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit21]
-FileName=spike.h
-CompileCpp=1
-Folder=maze
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit22]
+[Unit20]
 FileName=semak.cpp
 CompileCpp=1
 Folder=maze
@@ -260,7 +250,7 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit23]
+[Unit21]
 FileName=semak.h
 CompileCpp=1
 Folder=maze
@@ -270,8 +260,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit24]
-FileName=firework.h
+[Unit22]
+FileName=spike.cpp
 CompileCpp=1
 Folder=maze
 Compile=1
@@ -280,7 +270,17 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit25]
+[Unit23]
+FileName=spike.h
+CompileCpp=1
+Folder=maze
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit24]
 FileName=firework.cpp
 CompileCpp=1
 Folder=maze
@@ -290,8 +290,8 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit20]
-FileName=spike.cpp
+[Unit25]
+FileName=firework.h
 CompileCpp=1
 Folder=maze
 Compile=1

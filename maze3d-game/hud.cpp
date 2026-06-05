@@ -103,8 +103,9 @@ void displayPauseMenu()
 
     renderText(w/2 - 50, h/2 + 80, "PAUSED");
 
-    renderText(w/2 - 100, h/2 + 20,	"[1] Return to Play");
-    renderText(w/2 - 100, h/2 - 20,	"[2] Back to Main Menu");
+	renderText(w/2 - 100, h/2 + 40,	"[1] Return to Play");
+    renderText(w/2 - 100, h/2,		"[2] Restart Game");
+    renderText(w/2 - 100, h/2 - 40,	"[3] Back to Main Menu");
 }
 
 // game over
@@ -133,6 +134,7 @@ void drawHUD()
 	if (gameOver)		{ displayGameOver();	}
 	
 	glColor3f(kuning.r, kuning.g, kuning.b);
+	renderText(w/2, h/2, "+");
     
 	if (developerMode)
 	{
@@ -141,11 +143,11 @@ void drawHUD()
 	    sprintf(buf, "Angle: %.1f deg", angleDeg);			renderText(10, h - 40, buf);
 	    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");	renderText(10, h - 60, buf);
 	    
-	    renderText(w/2, h/2, "+");
 		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint | T: Toggle View");
 	}
 	else
 	{
+		renderText(10, h - 20, "ESC to pause game");
 		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint");
 	}
 }

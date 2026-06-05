@@ -11,7 +11,7 @@
 #include "hole.h"
 #include "semak.h"
 #include "firework.h"
-#include "chest.h"
+//#include "chest.h"
 
 void drawMaze();
 

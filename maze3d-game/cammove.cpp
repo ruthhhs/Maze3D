@@ -8,7 +8,7 @@
 float angle = 0.0;
 float deltaAngle = 0.0;
 float ratio;
-float x = 65.0f, y = 1.75f, z = -8.0f;
+float x = 10.0f, y = 1.75f, z = -16.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
 int h, w;
 float menuAngle = 0.0f;
@@ -144,7 +144,7 @@ void idle()
 {
     if (showMainMenu)
     {
-        menuAngle += 0.0001f;
+        menuAngle += 0.0005f;
 
         if (menuAngle > 2.0f * M_PI)
             menuAngle -= 2.0f * M_PI;
@@ -267,7 +267,7 @@ void updateCamera()
 	    x = startX + cos(menuAngle) * radius;
 	    z = startZ + sin(menuAngle) * radius;
 	    y = startY + 7.0f;
-	    pitch = -0.5f;
+	    pitch = -0.2f;
 	
 	    angle = menuAngle + M_PI;
 	}
@@ -329,7 +329,8 @@ void keyboard(unsigned char key, int xx, int yy)
         switch(key)
         {
             case '1':	paused = false;	break;
-            case '2':	paused = false;	showMainMenu = true;	break;
+            case '2':	paused = false;	respawnPoint();	break;
+            case '3':	paused = false;	showMainMenu = true;	break;
         }
         return;}
 
