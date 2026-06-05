@@ -60,7 +60,7 @@ void applyCamera()
     if (topView)
     {
         gluLookAt(
-            x, 40.0f, z,   
+            x, 130.0f, z,   
             x, 0.0f, z,
             0.0f, 0.0f, -1.0f
         );
@@ -197,28 +197,28 @@ void updateCamera()
     }
 
 	// masuk hole
-	if (!gameOver)
-	{
-	    if (checkHole(x, y, z))
-	    {
-	        gameOver = true;
-	        deadByHole = true;
-	        deadBySpike = false;
-	
-	        respawnTimer = 0.0f;
-	    }
-	
-	    else if (checkSpikeCollision(x, y, z))
-	    {
-	        gameOver = true;
-	        deadBySpike = true;
-	        deadByHole = false;
-	        damageFlash = 0.5f;
-	
-	        respawnTimer = 0.0f;
-	    }
-	}
-	
+//	if (!gameOver)
+//	{
+//	    if (checkHole(x, y, z))
+//	    {
+//	        gameOver = true;
+//	        deadByHole = true;
+//	        deadBySpike = false;
+//	
+//	        respawnTimer = 0.0f;
+//	    }
+//	
+//	    else if (checkSpikeCollision(x, y, z))
+//	    {
+//	        gameOver = true;
+//	        deadBySpike = true;
+//	        deadByHole = false;
+//	        damageFlash = 0.5f;
+//	
+//	        respawnTimer = 0.0f;
+//	    }
+//	}
+//	
 	// game over
 	if (gameOver) {
 		// kalau mati karena hole -> jatuh
