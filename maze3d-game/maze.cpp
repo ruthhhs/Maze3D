@@ -166,7 +166,7 @@ void drawMaze()
 	WallTex( 53, 0, -12,  55, 4, -20, texWall); //124
 	WallTex( 53, 0, -12,  64, 4, -14, texWall); //125
 	
-    // ================= POHON =================
+// ================= POHON =================
     
     drawTree(28.0, -11);
 //    drawTree(10, 0);
@@ -212,8 +212,6 @@ void drawMaze()
 	drawSmallTree(-14.0, -28.0);	
 	drawSmallTree(2, -33.0);
 	
-	
-	
 //    drawTree(5.0, -14.0);
 //    drawTree(14.0, -14.0);
 //    drawTree(5.0, -5.0);
@@ -231,7 +229,6 @@ void drawMaze()
     drawTree(22.0, -4.0);
     drawSmallTree(32, -9);
     
-    
     drawTree(-18.0, -35.0);
     drawTree(23.0, -35.0);
     drawTree(56.0, -22.5); //1
@@ -247,28 +244,36 @@ void drawMaze()
    	drawTree(47.0, 10.0);
    	drawTree(47.0, 17.0);
     drawTree(10.0, 23.0); //1
-    drawTree(-32.0, 25.5); //1
+    drawTree(-33.0, 25.5); //1
     drawTree(-22.0, 25.0); //1
     drawTree(35.0, 29.0); 
     drawTree(-20.0, 31.5);
     drawTree(8.0, 31.0); //1
-    drawTree(-34.0, 41.0);
+    drawTree(-35.0, 41.0);
     drawTree(28.0, 30.0);
     drawTree(39.0, 45.0); //1
     drawTree(58.0, 46.0);
     drawTree(30.0, 49.0); //1
     drawTree(54.0, 12.0);
+    
+    // ================= SEMAK =================
+    drawSemak(16, -2);
+    drawSemak(14, -2.7);
+    drawSemak(16, -17);
+    drawSemak(12, -16);
+    drawSemak(3, -17);
+    drawSemak(6.2, -2.3);
+    
     // ================= HOLE =================
-    drawHole(24.5, -13.5, 1.75f);
-    drawHole(37.0, 6.0, 1.75f);
-    drawHole(-18.0, 18.0, 1.75f);
-    drawHole(-18.5, -10.0, 1.75f);
-    drawHole(0.0, -42.0, 1.75f);
-    drawHole(34.0, -42.5, 1.75f);
-    drawHole(49.5, -5.0, 1.75f);
-    // ================= SPIKE =================
-//    resetSpikes();
-
+    drawHole(25.5, -15.0, 1.5f);
+    drawHole(37.5, 6.0, 1.5f);
+    drawHole(-19.0, 18.5, 1.5f);
+    drawHole(-19.0, -10.0, 1.5f);
+    drawHole(1.0, -43.0, 1.5f);
+    drawHole(34.0, -43.0, 1.5f);
+    drawHole(50.0, -5.0, 1.5f);
+	
+	// ================= SPIKE =================
 	drawSpike(1, 4);
     drawSpike(1, 3);
     drawSpike(1, 2);
@@ -286,7 +291,6 @@ void drawMaze()
     drawSpike(17, 25);
     drawSpike(16, 25);
     drawSpike(15, 25);
-    
     
     drawSpike(32, 15);
     drawSpike(32, 14);
@@ -309,7 +313,6 @@ void drawMaze()
     drawSpike(40, 26);
     drawSpike(40, 26);
     drawSpike(40, 26);
-    
     
     drawSpike(25, -4);
     drawSpike(26, -4);
@@ -344,7 +347,6 @@ void drawMaze()
     drawSpike(48, 37);
     drawSpike(49, 36);
     
-    
     drawSpike(43, 28);
     drawSpike(43, 29);
     drawSpike(43, 30);
@@ -353,7 +355,6 @@ void drawMaze()
     drawSpike(4, 11);
     drawSpike(3, 11);
     drawSpike(2, 11);
-    
     
     drawSpike(-2, 33);
     drawSpike(-2, 32);
@@ -389,7 +390,6 @@ void drawMaze()
     drawSpike(-38, 9);
     drawSpike(-39, 10);
     drawSpike(-40, 11);
-    
     
     drawSpike(-32, 14);
     drawSpike(-31, 14);
@@ -436,12 +436,6 @@ void drawMaze()
     drawSpike(-8, -21);
     drawSpike(-7, -21);
     
-    
-    drawSpike(-3, 10);
-    drawSpike(-2, 10);
-    drawSpike(-1, 10);
-    
-    
     drawSpike(-29, 48);
     drawSpike(-29, 49);
     drawSpike(-29, 50);
@@ -454,7 +448,6 @@ void drawMaze()
     drawSpike(-24, 14);
     drawSpike(-25, 14);
 
-    
     drawSpike(49, -43);
     drawSpike(48, -43);
     drawSpike(47, -43);
@@ -523,5 +516,9 @@ void drawMaze()
     drawSpike(-26, -3);
     drawSpike(-25, -3);
     drawSpike(-24, -3);
-	drawHUD();
+    
+	// ================= FIREWORK =================
+	firework(68.5f, -9.5f, 9.0f, 0);   // langsung
+	firework(67.0f, -9.0f, 10.0f, 60); // jeda 1 detik
+	firework(69.0f, 10.0f, 8.0f, 120); // jeda 2 detik
 }

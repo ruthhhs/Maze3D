@@ -7,6 +7,7 @@
 
 #include "cammove.h"
 #include "coltex.h"
+#include "firework.h"
 
 extern char countdown;
 extern int sisa;
@@ -18,5 +19,5 @@ void drawOverlay(float alpha);
 void displayMainMenu();
 void displayGameOver();
 void drawHUD();
-
+void drawWinText();;
 #endif

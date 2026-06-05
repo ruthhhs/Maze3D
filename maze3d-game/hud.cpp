@@ -83,7 +83,7 @@ void drawOverlay(float alpha)
 // main menu
 void displayMainMenu()
 {
-    drawOverlay(0.3f);
+    drawOverlay(0.4f);
 
     glColor3f(kuning.r, kuning.g, kuning.b);
 
@@ -103,8 +103,9 @@ void displayPauseMenu()
 
     renderText(w/2 - 50, h/2 + 80, "PAUSED");
 
-    renderText(w/2 - 100, h/2 + 20,	"[1] Return to Play");
-    renderText(w/2 - 100, h/2 - 20,	"[2] Back to Main Menu");
+	renderText(w/2 - 100, h/2 + 40,	"[1] Return to Play");
+    renderText(w/2 - 100, h/2,		"[2] Restart Game");
+    renderText(w/2 - 100, h/2 - 40,	"[3] Back to Main Menu");
 }
 
 // game over
@@ -123,6 +124,18 @@ void displayGameOver()
     renderText(w/2 - 50, h/2 + 80, countdown);
 }
 
+// goal
+void displayWinGame()
+{
+	drawOverlay(0.2f);
+	
+	glColor3f(kuning.r, kuning.g, kuning.b);
+    renderText(w/2 - 50, h/2 + 100, "GAME FINISHED !");
+    
+    renderText(w/2 - 100, h/2,		"[1] Play Again");
+    renderText(w/2 - 100, h/2 - 40,	"[2] Back to Main Menu");
+}
+
 // ================== DISPLAY HUD ==================
 void drawHUD()
 {
@@ -131,8 +144,10 @@ void drawHUD()
 	if (showMainMenu)	{ displayMainMenu();	return;}
 	if (paused)			{ displayPauseMenu();	return;}
 	if (gameOver)		{ displayGameOver();	}
+	if (winGame)		{ displayWinGame();		}
 	
 	glColor3f(kuning.r, kuning.g, kuning.b);
+	renderText(w/2, h/2, "+");
     
 	if (developerMode)
 	{
@@ -141,12 +156,14 @@ void drawHUD()
 	    sprintf(buf, "Angle: %.1f deg", angleDeg);			renderText(10, h - 40, buf);
 	    sprintf(buf, "View: %s", topView ? "TOP" : "FPS");	renderText(10, h - 60, buf);
 	    
-	    renderText(w/2, h/2, "+");
 		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint | T: Toggle View");
 	}
 	else
 	{
+		renderText(10, h - 20, "ESC to pause game");
 		renderText(10, 30, "WASD: Move | Arrow: Rotate | Space: Jump | Shift: Sprint");
 	}
 }
+
+
 

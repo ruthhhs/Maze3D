@@ -5,6 +5,7 @@
 #define CAMMOVE_H_INCLUDED
 
 #include "maze.h"
+#include "geometri.h"
 
 // ======= Variables =======
 extern float angle;
@@ -27,6 +28,7 @@ extern int lastTime;
 extern float deltaTime;
 
 extern bool gameOver;
+extern bool winGame;
 extern float respawnTimer;
 extern float startX;
 extern float startY;

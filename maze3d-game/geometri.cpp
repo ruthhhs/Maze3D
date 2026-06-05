@@ -88,6 +88,8 @@ void addWallFromPoints(float x1, float z1, float x2, float z2)
 
 int checkCollision(float nextX, float nextZ)
 {
+	if (developerMode) return false;
+	
     for (int i = 0; i < wallCount; i++)
     {
         if (nextX + playerRadius > walls[i].minX &&
@@ -213,4 +215,39 @@ void WallTex(
 	drawShadowBox(x1, z1, x2, z2);
     BalokTex(x1, y1, z1, x2, y2, z2, tex);
     addWallFromPoints(x1, z1, x2, z2);
+}
+
+// ================== GOAL AREA ==================
+GoalArea goals[MAX_GOALS];
+int goalCount = 0;
+bool gameFinished = false;
+
+void addGoal(float minX, float maxX,
+             float minZ, float maxZ)
+{
+    goals[goalCount].minX = minX;
+    goals[goalCount].maxX = maxX;
+    goals[goalCount].minZ = minZ;
+    goals[goalCount].maxZ = maxZ;
+    goalCount++;
+}
+
+int checkGoal(float playerX, float playerZ)
+{
+	if (developerMode) return 0;
+	
+	printf("goalCount = %d\n", goalCount);
+	
+    for (int i = 0; i < goalCount; i++)
+    {
+    	printf("checking goal %d\n", i);
+        if (playerX + playerRadius > goals[i].minX &&
+            playerX - playerRadius < goals[i].maxX &&
+            playerZ + playerRadius > goals[i].minZ &&
+            playerZ - playerRadius < goals[i].maxZ)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }

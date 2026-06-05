@@ -33,6 +33,7 @@ int lastTime = 0;
 float deltaTime = 0.0f;
 
 bool gameOver = false;
+bool winGame = false;
 float respawnTimer = 0.0f;
 float startX = x;
 float startY = y;
@@ -75,49 +76,54 @@ void applyCamera()
     }
 }
 
-// ======= Maju / mundur =======
-void moveMeFlat(int i)
-{
-    float baseSpeed = sprint ? 8.0f : 5.0f;
-    float speed = baseSpeed * deltaTime;
-
-    float nextX = x + i * lx * speed;
-    float nextZ = z + i * lz * speed;
-
-    if (!checkCollision(nextX, z) &&
-        !checkCircleCollision(nextX, z))
-    {
-        x = nextX;
-    }
-
-    if (!checkCollision(x, nextZ) &&
-        !checkCircleCollision(x, nextZ))
-    {
-        z = nextZ;
-    }
-}
-
-// ======= Strafe =======
-void strafeMe(int i)
-{
-    float baseSpeed = sprint ? 7.0f : 4.0f;
-    float speed = baseSpeed * deltaTime;
-
-    float nextX = x + i * lz * speed;
-    float nextZ = z - i * lx * speed;
-
-    if (!checkCollision(nextX, z) &&
-        !checkCircleCollision(nextX, z))
-    {
-        x = nextX;
-    }
-
-    if (!checkCollision(x, nextZ) &&
-        !checkCircleCollision(x, nextZ))
-    {
-        z = nextZ;
-    }
-}
+	// ======= Maju / mundur =======
+	void moveMeFlat(int i)
+	{
+	    float baseSpeed = sprint ? 8.0f : 5.0f;
+	    float speed = baseSpeed * deltaTime;
+	
+	    float nextX = x + i * lx * speed;
+	    float nextZ = z + i * lz * speed;
+	
+	    if (!checkCollision(nextX, z) &&
+	        !checkCircleCollision(nextX, z) &&
+	        !checkSemakCollision(nextX, y, z))
+	    {
+	        x = nextX;
+	    }
+	
+	    if (!checkCollision(x, nextZ) &&
+	        !checkCircleCollision(x, nextZ) &&
+	        !checkSemakCollision(x, y, nextZ))
+	    {
+	        z = nextZ;
+	    }
+	    
+	    if (isJumping)
+	        baseSpeed *= 1.5f;
+	}
+	
+	// ======= Strafe =======
+	void strafeMe(int i)
+	{
+	    float baseSpeed = sprint ? 7.0f : 4.0f;
+	    float speed = baseSpeed * deltaTime;
+	
+	    float nextX = x + i * lz * speed;
+	    float nextZ = z - i * lx * speed;
+	
+	    if (!checkCollision(nextX, z) &&
+	        !checkCircleCollision(nextX, z))
+	    {
+	        x = nextX;
+	    }
+	
+	    if (!checkCollision(x, nextZ) &&
+	        !checkCircleCollision(x, nextZ))
+	    {
+	        z = nextZ;
+	    }
+	}
 
 // ======= Reshape =======
 void Reshape(int w1, int h1)
@@ -141,18 +147,17 @@ void idle()
 {
     if (showMainMenu)
     {
-        menuAngle += 0.0001f;
+        menuAngle += 0.0005f;
 
         if (menuAngle > 2.0f * M_PI)
             menuAngle -= 2.0f * M_PI;
     }
-
     glutPostRedisplay();
 }
 
 // ======= Respawn =======
 void respawnPoint()
-{
+{	
     x = startX;
     y = startY;
     z = startZ;
@@ -197,28 +202,28 @@ void updateCamera()
     }
 
 	// masuk hole
-//	if (!gameOver)
-//	{
-//	    if (checkHole(x, y, z))
-//	    {
-//	        gameOver = true;
-//	        deadByHole = true;
-//	        deadBySpike = false;
-//	
-//	        respawnTimer = 0.0f;
-//	    }
-//	
-//	    else if (checkSpikeCollision(x, y, z))
-//	    {
-//	        gameOver = true;
-//	        deadBySpike = true;
-//	        deadByHole = false;
-//	        damageFlash = 0.5f;
-//	
-//	        respawnTimer = 0.0f;
-//	    }
-//	}
-//	
+	if (!gameOver)
+	{
+	    if (checkHole(x, y, z))
+	    {
+	        gameOver = true;
+	        deadByHole = true;
+	        deadBySpike = false;
+	
+	        respawnTimer = 0.0f;
+	    }
+	
+	    else if (checkSpikeCollision(x, y, z))
+	    {
+	        gameOver = true;
+	        deadBySpike = true;
+	        deadByHole = false;
+	        damageFlash = 0.5f;
+	
+	        respawnTimer = 0.0f;
+	    }
+	}
+	
 	// game over
 	if (gameOver) {
 		// kalau mati karena hole -> jatuh
@@ -241,13 +246,31 @@ void updateCamera()
 	        respawnPoint();
 	    }
 	}
+	// --- PERBAIKAN LOGIKA WIN GAME & FIREWORK ---
+	if (!winGame) 
+	{
+	    // Tentukan titik tengah finish dan toleransi jaraknya (radius)
+	    float targetX = 68.5f;
+	    float targetZ = -9.5f;
+	    float radius = 1.5f; // Pemain dianggap finish jika berada dalam radius 1.5 unit dari titik tujuan
 	
+	    float dx = x - targetX;
+	    float dz = z - targetZ;
+	    float distance = sqrtf(dx * dx + dz * dz);
+	
+	    if (distance < radius) 
+	    {
+	        winGame = true;
+	    }
+	}
+
 	if (showMainMenu){
 	    float radius = 20.0f;
 	
 	    x = startX + cos(menuAngle) * radius;
 	    z = startZ + sin(menuAngle) * radius;
-	    y = startY + 8.0f;
+	    y = startY + 7.0f;
+	    pitch = -0.2f;
 	
 	    angle = menuAngle + M_PI;
 	}
@@ -309,6 +332,15 @@ void keyboard(unsigned char key, int xx, int yy)
         switch(key)
         {
             case '1':	paused = false;	break;
+            case '2':	paused = false;	respawnPoint();	break;
+            case '3':	paused = false;	showMainMenu = true;	break;
+        }
+        return;}
+        
+    if (winGame){
+        switch(key)
+        {
+            case '1':	paused = false;	respawnPoint();	break;
             case '2':	paused = false;	showMainMenu = true;	break;
         }
         return;}
@@ -333,7 +365,6 @@ void keyboard(unsigned char key, int xx, int yy)
         case 't': case 'T':
 			if (developerMode) 
 			{
-				angle = -180.0;
 				topView = !topView;
 			} break;
     }

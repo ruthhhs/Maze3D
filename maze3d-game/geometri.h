@@ -9,7 +9,7 @@
 #include "lighting.h"
 
 // ================== LANTAI ==================
-#define LUAS_LANTAI 75
+#define LUAS_LANTAI 85
 void Grid();
 void lantaiTex(GLuint tex);
 void drawLantai(GLuint tex);
@@ -54,5 +54,21 @@ void WallTex(
     float x1, float y1, float z1,
     float x2, float y2, float z2,
     GLuint tex);
+
+// ================== GOAL AREA ==================
+#define MAX_GOALS 10
+struct GoalArea
+{
+    float minX, maxX;
+    float minZ, maxZ;
+};
+
+extern GoalArea goals[MAX_GOALS];
+
+extern int goalCount;
+extern bool gameFinished;
+
+void addGoal(float minX, float maxX, float minZ, float maxZ);
+int checkGoal(float playerX, float playerZ);
 
 #endif

@@ -13,6 +13,8 @@ Color abu   = {0.5f, 0.5f, 0.5f};
 Color kuning= {1.0f, 1.0f, 0.0f};
 
 Color skyblue= {0.65f, 0.65f, 1.0f};
+Color daun 	= {0.18f, 0.52f, 0.10f};
+Color batang= {0.35f, 0.20f, 0.07f};
 
 // ================== TEXTURE ==================
 GLuint loadTexture(Image* image)
