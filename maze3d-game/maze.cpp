@@ -177,6 +177,7 @@ void drawMaze()
     drawSpike(2, 11);
     
     // ================= GOAL =================
+//    error kalo dibuka
 //    addGoal(-43, -41, -14, -5); // kiri
 //	addGoal(7, 14, -61, -59);	// atas
 //	addGoal(67, 69, -7, 12);	// kanan

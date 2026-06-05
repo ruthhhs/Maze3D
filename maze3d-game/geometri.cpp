@@ -232,8 +232,11 @@ void addGoal(float minX, float maxX,
 
 int checkGoal(float playerX, float playerZ)
 {
+	printf("goalCount = %d\n", goalCount);
+	
     for (int i = 0; i < goalCount; i++)
     {
+    	printf("checking goal %d\n", i);
         if (playerX + playerRadius > goals[i].minX &&
             playerX - playerRadius < goals[i].maxX &&
             playerZ + playerRadius > goals[i].minZ &&
