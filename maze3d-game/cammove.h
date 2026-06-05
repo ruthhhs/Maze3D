@@ -28,6 +28,7 @@ extern int lastTime;
 extern float deltaTime;
 
 extern bool gameOver;
+extern bool winGame;
 extern float respawnTimer;
 extern float startX;
 extern float startY;

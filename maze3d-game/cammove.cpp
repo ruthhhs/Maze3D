@@ -8,7 +8,7 @@
 float angle = 0.0;
 float deltaAngle = 0.0;
 float ratio;
-float x = 10.0f, y = 1.75f, z = -16.0f;
+float x = 65.0f, y = 1.75f, z = -8.0f;
 float lx = 0.0f, ly = 0.0f, lz = -1.0f;
 int h, w;
 float menuAngle = 0.0f;
@@ -33,6 +33,7 @@ int lastTime = 0;
 float deltaTime = 0.0f;
 
 bool gameOver = false;
+bool winGame = false;
 float respawnTimer = 0.0f;
 float startX = x;
 float startY = y;
@@ -85,13 +86,15 @@ void moveMeFlat(int i)
     float nextZ = z + i * lz * speed;
 
     if (!checkCollision(nextX, z) &&
-        !checkCircleCollision(nextX, z))
+        !checkCircleCollision(nextX, z) &&
+        !checkSemakCollision(nextX, y, z))
     {
         x = nextX;
     }
 
     if (!checkCollision(x, nextZ) &&
-        !checkCircleCollision(x, nextZ))
+        !checkCircleCollision(x, nextZ) &&
+        !checkSemakCollision(x, y, nextZ))
     {
         z = nextZ;
     }
@@ -146,7 +149,6 @@ void idle()
         if (menuAngle > 2.0f * M_PI)
             menuAngle -= 2.0f * M_PI;
     }
-
     glutPostRedisplay();
 }
 
@@ -241,13 +243,24 @@ void updateCamera()
 	        respawnPoint();
 	    }
 	}
+	// --- PERBAIKAN LOGIKA WIN GAME & FIREWORK ---
+	if (!winGame) 
+	{
+	    // Tentukan titik tengah finish dan toleransi jaraknya (radius)
+	    float targetX = 68.5f;
+	    float targetZ = -9.5f;
+	    float radius = 1.5f; // Pemain dianggap finish jika berada dalam radius 1.5 unit dari titik tujuan
 	
-	if (!gameFinished && checkGoal(x, z))
-    {
-        gameFinished = true;
-        printf("GAME SELESAI!\n");
-    }
+	    float dx = x - targetX;
+	    float dz = z - targetZ;
+	    float distance = sqrtf(dx * dx + dz * dz);
 	
+	    if (distance < radius) 
+	    {
+	        winGame = true;
+	    }
+	}
+
 	if (showMainMenu){
 	    float radius = 20.0f;
 	

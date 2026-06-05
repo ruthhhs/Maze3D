@@ -5,6 +5,7 @@
 #include "lighting.h"
 #include "hud.h"
 #include "maze.h"
+#include "cammove.h"
 
 // ============================================================
 // Init
@@ -30,7 +31,7 @@ void display()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    applyCamera();
+	applyCamera();
 
     disableLighting();
     drawLantai(texGrass);
@@ -38,8 +39,12 @@ void display()
 
     resetWalls();
     drawMaze();
-    
     drawHUD();
+	if (winGame)
+	{
+	    updateFirework();
+	    drawFirework();
+	}
 
     glutSwapBuffers();
 }

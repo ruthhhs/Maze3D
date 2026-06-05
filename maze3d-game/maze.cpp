@@ -163,9 +163,8 @@ void drawMaze()
     
     drawSmallTree(27, 1);
     
-    drawRumput(16, -10);
-    drawRumput(15, -12);
-    drawRumput(7, -9);
+    drawSemak(16, -10);
+    drawSemak(15, -12);
     
     // ================= HOLE =================
     drawHole(18, 10, 2.0f);
@@ -176,10 +175,9 @@ void drawMaze()
     drawSpike(3, 11);
     drawSpike(2, 11);
     
-    // ================= GOAL =================
-//    error kalo dibuka
-//    addGoal(-43, -41, -14, -5); // kiri
-//	addGoal(7, 14, -61, -59);	// atas
-//	addGoal(67, 69, -7, 12);	// kanan
-//	addGoal(14, 21, 50, 52);	// bawah
+	// ================= FIREWORK =================
+
+	firework(68.5f, -9.5f, 9.0f, 0);   // langsung
+	firework(67.0f, -9.0f, 10.0f, 60); // jeda 1 detik
+	firework(69.0f, 10.0f, 8.0f, 120); // jeda 2 detik
 }
