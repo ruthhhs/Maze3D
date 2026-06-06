@@ -12,6 +12,7 @@
 
 void drawMaze()
 {
+	// ================= DINDING =================
 	WallTex(0, 0, 0,   2, 4,  -20, texWall); // 1
     WallTex( 0, 0, 0,   7.5, 4,  -2, texWall); // 2
     WallTex( 18, 0, 0,  20, 4, -20, texWall); // 3
@@ -166,11 +167,8 @@ void drawMaze()
 	WallTex( 53, 0, -12,  55, 4, -20, texWall); //124
 	WallTex( 53, 0, -12,  64, 4, -14, texWall); //125
 	
-// ================= POHON =================
-    
-    drawTree(28.0, -11);
-//    drawTree(10, 0);
-    drawSmallTree(20, 10); //1
+	// ================= POHON KECIL =================
+    drawSmallTree(20, 10);
     drawSmallTree(-15.5, -10.0 );
     drawSmallTree(17, 25);
     drawSmallTree(22,34);
@@ -179,7 +177,7 @@ void drawMaze()
     drawSmallTree(36,24);
     drawSmallTree(35,6);
     drawSmallTree(43.0, 32.0);
-    drawSmallTree(5.5, 11.0); //1
+    drawSmallTree(5.5, 11.0);
     drawSmallTree(-1.0, -4.0);
     drawSmallTree(37.0, -21.0);
     drawSmallTree(42.0, -14.0);
@@ -211,36 +209,32 @@ void drawMaze()
 	drawSmallTree(-7.0, -31.0);	
 	drawSmallTree(-14.0, -28.0);	
 	drawSmallTree(2, -33.0);
-	
-//    drawTree(5.0, -14.0);
-//    drawTree(14.0, -14.0);
-//    drawTree(5.0, -5.0);
-//    drawTree(14.0, -5.0);
-    
+	drawSmallTree(32, -9);
+
+	// ================= POHON BESAR =================
+	drawTree(10.0, -10.0);
+	drawTree(28.0, -11);
 	drawTree(1.0, -58.5);
 	drawTree(-36.0, -56.5);
     drawTree(13.0, -55.0);
-    drawTree(35.0, -56.0); //3
-    
-    drawTree(-27.0, -48.0); //1
+    drawTree(35.0, -56.0);
+    drawTree(-27.0, -48.0);
     drawTree(58.0, -48.5);
-    drawTree(27.0, -26.0); //2
+    drawTree(27.0, -26.0);
     drawTree(22.0, -18.0);
     drawTree(22.0, -4.0);
-    drawSmallTree(32, -9);
-    
     drawTree(-18.0, -35.0);
     drawTree(23.0, -35.0);
-    drawTree(56.0, -22.5); //1
+    drawTree(56.0, -22.5);
     drawTree(-39, -27.0);
-    drawTree(9.5, -24.5); //1
-    drawTree(-13.5, 12.0); //1
-    drawTree(-19.0, -19.0); //1
-    drawTree(-4.0, -14.0); //1
+    drawTree(9.5, -24.5);
+    drawTree(-13.5, 12.0);
+    drawTree(-19.0, -19.0);
+    drawTree(-4.0, -14.0);
     drawTree(-32.0, -8.0);
-    drawTree(53.0, -8.0); //1
-    drawTree(-40.0, 1.0); //1
-    drawTree(28.0, 2.0); //1
+    drawTree(53.0, -8.0);
+    drawTree(-40.0, 1.0);
+    drawTree(28.0, 2.0);
    	drawTree(47.0, 10.0);
    	drawTree(47.0, 17.0);
     drawTree(10.0, 23.0); //1
@@ -251,9 +245,9 @@ void drawMaze()
     drawTree(8.0, 31.0); //1
     drawTree(-35.0, 41.0);
     drawTree(28.0, 30.0);
-    drawTree(39.0, 45.0); //1
+    drawTree(39.0, 45.0);
     drawTree(58.0, 46.0);
-    drawTree(30.0, 49.0); //1
+    drawTree(30.0, 49.0);
     drawTree(54.0, 12.0);
     
     // ================= SEMAK =================
@@ -520,5 +514,17 @@ void drawMaze()
 	// ================= FIREWORK =================
 	firework(68.5f, -9.5f, 9.0f, 0);   // langsung
 	firework(67.0f, -9.0f, 10.0f, 60); // jeda 1 detik
-	firework(69.0f, 10.0f, 8.0f, 120); // jeda 2 detik
+	firework(68.0f, -9.5f, 8.0f, 120); // jeda 2 detik
+	
+	firework(-41.5f, -10.5f, 9.0f, 0);   // langsung
+	firework(-42.0f, -9.5f, 10.0f, 60); // jeda 1 detik
+	firework(-40.5f, -9.0f, 8.0f, 120); // jeda 2 detik
+	
+	firework(10.5f, -61.5f, 9.0f, 0);   // langsung
+	firework(11.0f, -61.0f, 10.0f, 60); // jeda 1 detik
+	firework(9.5f, -61.0f, 8.0f, 120); // jeda 2 detik
+	
+	firework(19.0f, 53.5f, 9.0f, 0);   // langsung
+	firework(17.0f, 54.0f, 10.0f, 60); // jeda 1 detik
+	firework(18.0f, 53.5f, 8.0f, 120); // jeda 2 detik
 }
