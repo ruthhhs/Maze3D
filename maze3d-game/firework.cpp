@@ -111,6 +111,7 @@ void drawFirework()
         // ===== Roket =====
         if (fw.rocketActive)
         {
+        	glDisable(GL_LIGHTING);
             glLineWidth(3.0f);
             glBegin(GL_LINES);
             glColor3f(1.0f, 1.0f, 0.0f);
@@ -123,28 +124,32 @@ void drawFirework()
             glColor3f(1.0f, 1.0f, 1.0f);
             glVertex3f(fw.rocketX, fw.rocketY, fw.rocketZ);
             glEnd();
+            glEnable(GL_LIGHTING);
         }
 
         // ===== Partikel =====
-        glPointSize(6.0f);
-        glBegin(GL_POINTS);
-
-        for (int j = 0; j < MAX_PARTICLES; j++)
-        {
-            Particle& p = fw.particles[j];
-            if (p.life > 0.0f)
-            {
-                float l = p.life;
-                if (j % 3 == 0)
-                    glColor3f(1.0f, 0.2f * l, 0.2f * l);
-                else if (j % 3 == 1)
-                    glColor3f(1.0f, 1.0f * l, 0.2f * l);
-                else
-                    glColor3f(0.2f * l, 1.0f, 1.0f * l);
-                glVertex3f(p.x, p.y, p.z);
-            }
-        }
-        glEnd();
+        glDisable(GL_LIGHTING);
+		for (int j = 0; j < MAX_PARTICLES; j++)
+		{
+		    Particle& p = fw.particles[j];
+		    if (p.life > 0.0f)
+		    {
+		        float l = p.life;
+		        if (j % 3 == 0)
+		            glColor3f(1.0f, 0.2f * l, 0.2f * l);
+		        else if (j % 3 == 1)
+		            glColor3f(1.0f, 1.0f * l, 0.2f * l);
+		        else
+		            glColor3f(0.2f * l, 1.0f, 1.0f * l);
+		
+		        glPushMatrix();
+		            glTranslatef(p.x, p.y, p.z);
+		            glScalef(l, l, l);
+		            glutSolidSphere(0.15f, 4, 4);
+		        glPopMatrix();
+		    }
+		}
+		glEnable(GL_LIGHTING);
     }
 }
 
