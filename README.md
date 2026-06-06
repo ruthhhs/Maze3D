@@ -11,10 +11,14 @@ Informatika 2024 Kelas C
 
 ## About the game
 
-Maze3D game adalah permainan puzzle-adventure tiga dimensi berbasis sudut pandang orang pertama (First-Person POV). Pemain ditugaskan mencari jalan keluar dari dalam labirin, sambil menghindari rintangan yang ada (Trees, Holes, Spikes).
+## Tentang Game
+
+Maze3D adalah permainan puzzle-adventure tiga dimensi yang dikembangkan menggunakan OpenGL dan GLUT pada lingkungan Dev-C++. Game ini menggunakan sudut pandang orang pertama (*First-Person Point of View*), sehingga pemain dapat menjelajahi labirin secara langsung dari perspektif karakter.
+
+Tujuan utama permainan adalah menemukan jalan keluar dari labirin sambil menghindari berbagai rintangan yang tersebar di area permainan, seperti pohon, lubang, dan duri. Pemain harus menavigasi labirin dengan cermat untuk mencapai titik akhir dan menyelesaikan permainan.
 
 <div align="center">
-    <img src="game-prewiew.png" width="70%" alt="Game Preview">
+    <img src="game-prewiew.png" width="50%" alt="Game Preview">
     <p>Game Preview</p>
 </div>
 
@@ -23,6 +27,8 @@ Mekanik permainan:
 - Arrow untuk arah pandang
 - Space untuk lompat
 - Shift untuk sprint
+
+Proyek ini dibuat sebagai bagian dari tugas mata kuliah Grafika Komputer dan menampilkan implementasi objek 3D, tekstur, pencahayaan, animasi, serta deteksi tabrakan (collision detection) menggunakan OpenGL.
 
 ## Tech Used
 
