@@ -42,11 +42,8 @@ bool checkCircleCollision(float newX, float newZ)
 
 // ==================== POHON BESAR ====================
 void drawTree(float tx, float tz) {
-	//shadow
-	drawCircleShadow(tx, tz, 3.0f);
-	
-	//collision
-	addCircleWall(tx - 0.2, tz + 0.2, 3.0f);
+	drawCircleShadow(tx, tz, 3.0f);			//shadow
+	addCircleWall(tx - 0.2, tz + 0.2, 3.0f);//collision
 	
     // batang
     glColor3f(batang.r, batang.g, batang.b);
@@ -64,7 +61,6 @@ void drawTree(float tx, float tz) {
         {0.20f, 0.58f, 0.12f},
         {0.25f, 0.65f, 0.15f}
     };
-
     float layerY[3] = {3.0f, 5.0f, 7.0f};
     float layerRad[3] = {3.2f, 2.4f, 1.5f};
 
@@ -83,11 +79,8 @@ void drawTree(float tx, float tz) {
 
 // ==================== POHON KECIL ====================
 void drawSmallTree(float tx, float tz) {
-	//shadow
-	drawCircleShadow(tx, tz, 1.0f);
-	
-    //collision
-	addCircleWall(tx - 0.2, tz + 0.2, 0.9f);
+	drawCircleShadow(tx, tz, 1.0f);			//shadow
+	addCircleWall(tx - 0.2, tz + 0.2, 0.9f);//collision
 
     // batang
     glColor3f(batang.r, batang.g, batang.b);

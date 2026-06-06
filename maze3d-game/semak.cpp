@@ -56,11 +56,8 @@ bool checkSemakCollision(float newX,
 // ==================== SEMAK ====================
 void drawSemak(float tx, float tz)
 {
-    // shadow
-    drawCircleShadow(tx, tz, 0.85f);
-    // collision
-    // height = tinggi minimum agar bisa melompati
-    addSemakWall(tx, tz, 1.0f, 2.0f);
+    drawCircleShadow(tx, tz, 0.85f);	// shadow
+    addSemakWall(tx, tz, 1.0f, 2.0f);	// collision
 
     // daun bawah kiri
     glColor3f(0.10f, 0.40f, 0.08f);

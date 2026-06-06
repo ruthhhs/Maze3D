@@ -52,12 +52,10 @@ void drawHole(float cx, float cz, float radius) {
 	    cx + radius, 2.0f, cz + radius
 	);
     
-    // warna lubang
-    glColor3f(0.15f, 0.15f, 0.15f);
+    glColor3f(0.15f, 0.15f, 0.15f); // warna lubang
     glBegin(GL_TRIANGLE_FAN);
 
-    // titik tengah
-    glVertex3f(cx, 0.05f, cz);
+    glVertex3f(cx, 0.05f, cz);		// titik tengah
 
     // lingkaran
     for (int i = 0; i <= 360; i++) {

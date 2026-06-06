@@ -11,13 +11,11 @@ void resetSpikes() {
 }
 
 void drawSpike(float x, float z) {
-    // ===== simpan spike sekali saja =====
+    // add spike
     int exists = 0;
     for (int i = 0; i < spikeCount; i++) {
         if (spikes[i].x == x && spikes[i].z == z) {
-            exists = 1;
-            break;
-        }
+            exists = 1;	break;	}
     }
 
     if (!exists && spikeCount < MAX_SPIKES) {
@@ -26,24 +24,18 @@ void drawSpike(float x, float z) {
         spikeCount++;
     }
 
-    // ===== animasi =====
+    // animasi
     float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
     float offset = (x + z) * 0.3f;
     float cycle = fmod(time + offset, 4.0f);
     float y = -1.0f;
     
-    if (cycle < 1.0f) {
-        y = -1.0f + cycle;
-    } else if (cycle < 2.5f) {
-        y = 0.0f;
-    } else if (cycle < 3.5f) {
-        y = 0.0f - (cycle - 2.5f);
-    } else {
-        y = -1.0f;
-    }
+    if (cycle < 1.0f) {	y = -1.0f + cycle;
+    } else if (cycle < 2.5f) {	y = 0.0f;
+    } else if (cycle < 3.5f) {	y = 0.0f - (cycle - 2.5f);
+    } else {	y = -1.0f;}
 
-    if (y <= -0.95f)
-        return;
+    if (y <= -0.95f)	return;
 
     glPushMatrix();
     glTranslatef(x, y, z);
