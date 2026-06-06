@@ -64,8 +64,8 @@ int checkSpikeCollision(float px, float py, float pz) {
         } else if (cycle < 3.5f) {
             y = 0.0f - (cycle - 2.5f);
         } else {
-            continue;
-        }
+		    y = -1.0f;
+		}
 
         float dx = px - sx;
         float dz = pz - sz;
@@ -74,7 +74,7 @@ int checkSpikeCollision(float px, float py, float pz) {
         if (dist > 0.8f)
             continue;
 
-		float spikeTop = y + 2.5f;
+		float spikeTop = y + 2.2f;
 		
 		if (py >= y - 1.0f && py <= spikeTop) {
 		    return 1;

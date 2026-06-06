@@ -3,9 +3,16 @@
 #include <stdio.h>
 
 #include "maze.h"
+#include "hud.h"
+#include "geometri.h"
+#include "tree.h"
+#include "hole.h"
+#include "spike.h"
+
 
 void drawMaze()
 {
+	// ================= DINDING =================
 	WallTex(0, 0, 0,   2, 4,  -20, texWall); // 1
     WallTex( 0, 0, 0,   7.5, 4,  -2, texWall); // 2
     WallTex( 18, 0, 0,  20, 4, -20, texWall); // 3
@@ -33,7 +40,7 @@ void drawMaze()
     WallTex( 10, 0, -47, 12, 4, -54, texWall); //21
     WallTex( 10, 0, -52,  -10, 4, -54, texWall); //22
     WallTex( -10, 0, -52,  -12, 4, -59, texWall); //23
-    WallTex( 7, 0, -59, -43, 4, -61, texWall); //24
+    WallTex( -4, 0, -59, -43, 4, -61, texWall); //24
     WallTex( -28, 0, -52,  -30, 4, -59, texWall); //25
     
     WallTex( -21, 0, -45, -23, 4, -54, texWall); //26
@@ -86,20 +93,23 @@ void drawMaze()
     
     WallTex( -10, 0, 43,  -12, 4, 50, texWall); //66
 	WallTex( -10, 0, 43,  9, 4, 45, texWall); //67
-	WallTex( 7, 0, 45,    9, 4, 47, texWall); //68	
+	WallTex( 3, 0, 45,    5, 4, 47, texWall); //68	
     WallTex( 21, 0, 38,   23, 4, 52, texWall); //69
 	WallTex( -21, 0, 36,  27, 4, 38, texWall); //70
 	
+	WallTex( 12, 0, 43,  14, 4, 50, texWall); //new
+	WallTex( 12, 0, 43,  18, 4, 45, texWall); //new
+	
 	WallTex( 14, 0, 5,  16, 4, 36, texWall); //71
 	WallTex( 9, 0, 5,   14, 4, 7, texWall); //72
-    WallTex( 7, 0, 5,   9, 4, 22, texWall); //73
-	WallTex( 2, 0, 20,  7, 4, 22, texWall); //74
+    WallTex( 7, 0, 5,   9, 4, 15, texWall); //73
+	WallTex( 2, 0, 20,  9, 4, 22, texWall); //74
 	WallTex( 0, 0, 5,   2, 4, 22, texWall); //75
     
-    WallTex( 23, 0, 50,  67, 4, 52, texWall); //76
+    WallTex( 17, 0, 50,  67, 4, 52, texWall); //76
 	WallTex( 46, 0, 50,  48, 4, 42, texWall); //77
 	WallTex( 46, 0, 40,  55, 4, 42, texWall); //78
-	WallTex( 67, 0, 52,  69, 4, -7, texWall); //79
+	WallTex( 67, 0, 52,  69, 4, -14, texWall); //79
 	WallTex( 60, 0, 32,  62, 4, 42, texWall); //80
 	
 	WallTex( 62, 0, 32,  67, 4, 34, texWall); //81
@@ -141,15 +151,15 @@ void drawMaze()
 	
 	WallTex( 44, 0, -51,  54, 4, -53, texWall); //111
 	WallTex( 17, 0, -52,  19, 4, -61, texWall); //112
-	WallTex( 14, 0, -59,  69, 4, -61, texWall); //113
+	WallTex( 2, 0, -59,  69, 4, -61, texWall); //113
 	WallTex( 37, 0, -52,  39, 4, -59, texWall); //114
 	WallTex( 24, 0, -52,  39, 4, -54, texWall); //115
 	
 	WallTex( 60, 0, -48,  62, 4, -59, texWall); //116
-	WallTex( 67, 0, -12,  69, 4, -61, texWall); //117
+	WallTex( 67, 0, -19,  69, 4, -61, texWall); //117
 	WallTex( 60, 0, -41,  69, 4, -43, texWall); //118
 	WallTex( 60, 0, -33,  62, 4, -43, texWall); //119
-	WallTex( 62, 0, -12,  67, 4, -14, texWall); //120
+	WallTex( 62, 0, -19,  67, 4, -21, texWall); //120
 	
 	WallTex( 60, 0, -19,  62, 4, -26, texWall); //121
 	WallTex( 55, 0, -26,  62, 4, -28, texWall); //122
@@ -157,11 +167,8 @@ void drawMaze()
 	WallTex( 53, 0, -12,  55, 4, -20, texWall); //124
 	WallTex( 53, 0, -12,  64, 4, -14, texWall); //125
 	
-// ================= POHON =================
-    
-    drawTree(28.0, -11);
-//    drawTree(10, 0);
-    drawSmallTree(20, 10); //1
+	// ================= POHON KECIL =================
+    drawSmallTree(20, 10);
     drawSmallTree(-15.5, -10.0 );
     drawSmallTree(17, 25);
     drawSmallTree(22,34);
@@ -170,7 +177,7 @@ void drawMaze()
     drawSmallTree(36,24);
     drawSmallTree(35,6);
     drawSmallTree(43.0, 32.0);
-    drawSmallTree(5.5, 11.0); //1
+    drawSmallTree(5.5, 11.0);
     drawSmallTree(-1.0, -4.0);
     drawSmallTree(37.0, -21.0);
     drawSmallTree(42.0, -14.0);
@@ -202,49 +209,45 @@ void drawMaze()
 	drawSmallTree(-7.0, -31.0);	
 	drawSmallTree(-14.0, -28.0);	
 	drawSmallTree(2, -33.0);
-	
-//    drawTree(5.0, -14.0);
-//    drawTree(14.0, -14.0);
-//    drawTree(5.0, -5.0);
-//    drawTree(14.0, -5.0);
-    
+	drawSmallTree(32, -9);
+
+	// ================= POHON BESAR =================
+	drawTree(10.0, -10.0);
+	drawTree(28.0, -11);
 	drawTree(1.0, -58.5);
 	drawTree(-36.0, -56.5);
     drawTree(13.0, -55.0);
-    drawTree(35.0, -56.0); //3
-    
-    drawTree(-27.0, -48.0); //1
+    drawTree(35.0, -56.0);
+    drawTree(-27.0, -48.0);
     drawTree(58.0, -48.5);
-    drawTree(27.0, -26.0); //2
+    drawTree(27.0, -26.0);
     drawTree(22.0, -18.0);
     drawTree(22.0, -4.0);
-    drawSmallTree(32, -9);
-    
     drawTree(-18.0, -35.0);
     drawTree(23.0, -35.0);
-    drawTree(56.0, -22.5); //1
+    drawTree(56.0, -22.5);
     drawTree(-39, -27.0);
-    drawTree(9.5, -24.5); //1
-    drawTree(-13.5, 12.0); //1
-    drawTree(-19.0, -19.0); //1
-    drawTree(-4.0, -14.0); //1
+    drawTree(9.5, -24.5);
+    drawTree(-13.5, 12.0);
+    drawTree(-19.0, -19.0);
+    drawTree(-4.0, -14.0);
     drawTree(-32.0, -8.0);
-    drawTree(53.0, -8.0); //1
-    drawTree(-40.0, 1.0); //1
-    drawTree(28.0, 2.0); //1
+    drawTree(53.0, -8.0);
+    drawTree(-40.0, 1.0);
+    drawTree(28.0, 2.0);
    	drawTree(47.0, 10.0);
    	drawTree(47.0, 17.0);
     drawTree(10.0, 23.0); //1
-    drawTree(-32.0, 25.5); //1
+    drawTree(-33.0, 25.5); //1
     drawTree(-22.0, 25.0); //1
     drawTree(35.0, 29.0); 
     drawTree(-20.0, 31.5);
     drawTree(8.0, 31.0); //1
-    drawTree(-34.0, 41.0);
+    drawTree(-35.0, 41.0);
     drawTree(28.0, 30.0);
-    drawTree(39.0, 45.0); //1
+    drawTree(39.0, 45.0);
     drawTree(58.0, 46.0);
-    drawTree(30.0, 49.0); //1
+    drawTree(30.0, 49.0);
     drawTree(54.0, 12.0);
     
     // ================= SEMAK =================
@@ -256,13 +259,13 @@ void drawMaze()
     drawSemak(6.2, -2.3);
     
     // ================= HOLE =================
-    drawHole(24.5, -13.5, 1.75f);
-    drawHole(37.0, 6.0, 1.75f);
-    drawHole(-18.0, 18.0, 1.75f);
-    drawHole(-18.5, -10.0, 1.75f);
-    drawHole(0.0, -42.0, 1.75f);
-    drawHole(34.0, -42.5, 1.75f);
-    drawHole(49.5, -5.0, 1.75f);
+    drawHole(25.5, -15.0, 1.5f);
+    drawHole(37.5, 6.0, 1.5f);
+    drawHole(-19.0, 18.5, 1.5f);
+    drawHole(-19.0, -10.0, 1.5f);
+    drawHole(1.0, -43.0, 1.5f);
+    drawHole(34.0, -43.0, 1.5f);
+    drawHole(50.0, -5.0, 1.5f);
 	
 	// ================= SPIKE =================
 	drawSpike(1, 4);
@@ -427,10 +430,6 @@ void drawMaze()
     drawSpike(-8, -21);
     drawSpike(-7, -21);
     
-    drawSpike(-3, 10);
-    drawSpike(-2, 10);
-    drawSpike(-1, 10);
-    
     drawSpike(-29, 48);
     drawSpike(-29, 49);
     drawSpike(-29, 50);
@@ -515,5 +514,17 @@ void drawMaze()
 	// ================= FIREWORK =================
 	firework(68.5f, -9.5f, 9.0f, 0);   // langsung
 	firework(67.0f, -9.0f, 10.0f, 60); // jeda 1 detik
-	firework(69.0f, 10.0f, 8.0f, 120); // jeda 2 detik
+	firework(68.0f, -9.5f, 8.0f, 120); // jeda 2 detik
+	
+	firework(-41.5f, -10.5f, 9.0f, 0);   // langsung
+	firework(-42.0f, -9.5f, 10.0f, 60); // jeda 1 detik
+	firework(-40.5f, -9.0f, 8.0f, 120); // jeda 2 detik
+	
+	firework(10.5f, -61.5f, 9.0f, 0);   // langsung
+	firework(11.0f, -61.0f, 10.0f, 60); // jeda 1 detik
+	firework(9.5f, -61.0f, 8.0f, 120); // jeda 2 detik
+	
+	firework(19.0f, 53.5f, 9.0f, 0);   // langsung
+	firework(17.0f, 54.0f, 10.0f, 60); // jeda 1 detik
+	firework(18.0f, 53.5f, 8.0f, 120); // jeda 2 detik
 }

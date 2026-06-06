@@ -61,7 +61,7 @@ void applyCamera()
     if (topView)
     {
         gluLookAt(
-            x, 40.0f, z,   
+            x, 130.0f, z,   
             x, 0.0f, z,
             0.0f, 0.0f, -1.0f
         );
@@ -76,51 +76,55 @@ void applyCamera()
     }
 }
 
-	// ======= Maju / mundur =======
-	void moveMeFlat(int i)
-	{
-	    float baseSpeed = sprint ? 8.0f : 5.0f;
-	    float speed = baseSpeed * deltaTime;
+// ======= Maju / mundur =======
+void moveMeFlat(int i)
+{
+    float baseSpeed = sprint ? 8.0f : 5.0f;
+    if (isJumping)
+        baseSpeed *= 1.5f;
+    float speed = baseSpeed * deltaTime;
+
+    float nextX = x + i * lx * speed;
+    float nextZ = z + i * lz * speed;
+
+    if (!checkCollision(nextX, z) &&
+        !checkCircleCollision(nextX, z) &&
+        !checkSemakCollision(nextX, y, z))
+    {
+        x = nextX;
+    }
+
+    if (!checkCollision(x, nextZ) &&
+        !checkCircleCollision(x, nextZ) &&
+        !checkSemakCollision(x, y, nextZ))
+    {
+        z = nextZ;
+    }
+}
 	
-	    float nextX = x + i * lx * speed;
-	    float nextZ = z + i * lz * speed;
-	
-	    if (!checkCollision(nextX, z) &&
-	        !checkCircleCollision(nextX, z) &&
-	        !checkSemakCollision(nextX, y, z))
-	    {
-	        x = nextX;
-	    }
-	
-	    if (!checkCollision(x, nextZ) &&
-	        !checkCircleCollision(x, nextZ) &&
-	        !checkSemakCollision(x, y, nextZ))
-	    {
-	        z = nextZ;
-	    }
-	}
-	
-	// ======= Strafe =======
-	void strafeMe(int i)
-	{
-	    float baseSpeed = sprint ? 7.0f : 4.0f;
-	    float speed = baseSpeed * deltaTime;
-	
-	    float nextX = x + i * lz * speed;
-	    float nextZ = z - i * lx * speed;
-	
-	    if (!checkCollision(nextX, z) &&
-	        !checkCircleCollision(nextX, z))
-	    {
-	        x = nextX;
-	    }
-	
-	    if (!checkCollision(x, nextZ) &&
-	        !checkCircleCollision(x, nextZ))
-	    {
-	        z = nextZ;
-	    }
-	}
+// ======= Strafe =======
+void strafeMe(int i)
+{
+    float baseSpeed = sprint ? 7.0f : 4.0f;
+    float speed = baseSpeed * deltaTime;
+
+    float nextX = x + i * lz * speed;
+    float nextZ = z - i * lx * speed;
+
+    if (!checkCollision(nextX, z) &&
+        !checkCircleCollision(nextX, z) &&
+		!checkSemakCollision(nextX, y, z))
+    {
+        x = nextX;
+    }
+
+    if (!checkCollision(x, nextZ) &&
+        !checkCircleCollision(x, nextZ) &&
+        !checkSemakCollision(x, y, nextZ))
+    {
+        z = nextZ;
+    }
+}
 
 // ======= Reshape =======
 void Reshape(int w1, int h1)
@@ -155,14 +159,67 @@ void idle()
 // ======= Respawn =======
 void respawnPoint()
 {	
+    // posisi awal
     x = startX;
     y = startY;
     z = startZ;
-    
-    angle = 0.0;
-    
+
+    // rotasi awal
+    angle = 0.0f;
+    pitch = 0.0f;
+
+    deltaAngle = 0.0f;
+    deltaPitch = 0.0f;
+
+    // arah kamera reset
+    lx = 0.0f;
+    ly = 0.0f;
+    lz = -1.0f;
+
+    // movement reset
+    keyW = keyS = keyA = keyD = false;
+    sprint = 0;
+
+    // jump reset
+    velocityY = 0.0f;
+    isJumping = 0;
+
+    // state reset
     gameOver = false;
+    winGame = false;
+    paused = false;
+    topView = false;
+
+    deadByHole = false;
+    deadBySpike = false;
+
+    damageFlash = 0.0f;
     respawnTimer = 0.0f;
+}
+
+// ======= WIN POINT =======
+bool checkWinPoint(float targetX, float targetZ, float radius)
+{
+    float dx = x - targetX;
+    float dz = z - targetZ;
+
+    float distance = sqrtf(dx * dx + dz * dz);
+
+    return distance < radius;
+}
+
+// ======= RESET KEYS ASWD =======
+void resetKeys()
+{
+    keyW = false;
+    keyS = false;
+    keyA = false;
+    keyD = false;
+
+    deltaAngle = 0.0f;
+    deltaPitch = 0.0f;
+
+    sprint = 0;
 }
 
 // ======= Main Camera Update =======
@@ -204,6 +261,7 @@ void updateCamera()
 	    if (checkHole(x, y, z))
 	    {
 	        gameOver = true;
+	        resetKeys();
 	        deadByHole = true;
 	        deadBySpike = false;
 	
@@ -213,6 +271,7 @@ void updateCamera()
 	    else if (checkSpikeCollision(x, y, z))
 	    {
 	        gameOver = true;
+	        resetKeys();
 	        deadBySpike = true;
 	        deadByHole = false;
 	        damageFlash = 0.5f;
@@ -220,10 +279,10 @@ void updateCamera()
 	        respawnTimer = 0.0f;
 	    }
 	}
-	
+
 	// game over
 	if (gameOver) {
-		// kalau mati karena hole -> jatuh
+		// hole -> jatuh
 	    if (deadByHole) {
 	        y -= 5.0f * deltaTime;
 	        if (y <= -3.0f) {
@@ -231,7 +290,7 @@ void updateCamera()
 	        }
 	    }
 	
-	    // kalau spike -> merah
+	    // spike -> gelap
 	    if (deadBySpike) {
 			damageFlash -= deltaTime;		
 			if (damageFlash < 0.0f)
@@ -243,24 +302,21 @@ void updateCamera()
 	        respawnPoint();
 	    }
 	}
-	// --- PERBAIKAN LOGIKA WIN GAME & FIREWORK ---
+	
+	// cek menang
 	if (!winGame) 
 	{
-	    // Tentukan titik tengah finish dan toleransi jaraknya (radius)
-	    float targetX = 68.5f;
-	    float targetZ = -9.5f;
-	    float radius = 1.5f; // Pemain dianggap finish jika berada dalam radius 1.5 unit dari titik tujuan
-	
-	    float dx = x - targetX;
-	    float dz = z - targetZ;
-	    float distance = sqrtf(dx * dx + dz * dz);
-	
-	    if (distance < radius) 
+	    if (checkWinPoint(65.0f, -9.5f, 1.5f) ||
+	        checkWinPoint(-40.5f, -10.0f, 2.5f) ||
+	        checkWinPoint(10.0f, -59.0f, 2.5f) ||
+	        checkWinPoint(16.5f, 49.5f, 3.5f))
 	    {
 	        winGame = true;
+	        resetKeys();
 	    }
 	}
 
+	// main menu
 	if (showMainMenu){
 	    float radius = 20.0f;
 	
@@ -270,6 +326,7 @@ void updateCamera()
 	    pitch = -0.2f;
 	
 	    angle = menuAngle + M_PI;
+	    orientMe(angle);
 	}
 }
 
@@ -330,7 +387,7 @@ void keyboard(unsigned char key, int xx, int yy)
         {
             case '1':	paused = false;	break;
             case '2':	paused = false;	respawnPoint();	break;
-            case '3':	paused = false;	showMainMenu = true;	break;
+            case '3':	paused = false;	respawnPoint(); showMainMenu = true; developerMode = false;	break;
         }
         return;}
         
@@ -338,7 +395,7 @@ void keyboard(unsigned char key, int xx, int yy)
         switch(key)
         {
             case '1':	paused = false;	respawnPoint();	break;
-            case '2':	paused = false;	showMainMenu = true;	break;
+            case '2':	paused = false;	respawnPoint(); showMainMenu = true; developerMode = false;	break;
         }
         return;}
 

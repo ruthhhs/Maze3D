@@ -62,7 +62,7 @@ void drawTree(float tx, float tz) {
         {0.25f, 0.65f, 0.15f}
     };
     float layerY[3] = {3.0f, 5.0f, 7.0f};
-    float layerRad[3] = {3.2f, 2.4f, 1.5f};
+    float layerRad[3] = {2.3f, 1.7f, 1.2f};
 
     for (int i = 0; i < 3; i++) {
         glColor3f(

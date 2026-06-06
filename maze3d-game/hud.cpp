@@ -87,7 +87,7 @@ void displayMainMenu()
 
     glColor3f(kuning.r, kuning.g, kuning.b);
 
-    renderText(w/2 - 60, h/2 + 100, "MAIN MENU");
+    renderText(w/2 - 60, h/2 + 100, "MAZE 3D GAME");
     
     renderText(w/2 - 90, h/2 + 40,	"[1] Play as Player");
     renderText(w/2 - 90, h/2,		"[2] Play as Developer");
