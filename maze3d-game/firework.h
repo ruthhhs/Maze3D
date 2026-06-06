@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #define MAX_PARTICLES 100
-#define MAX_FIREWORKS 8
+#define MAX_FIREWORKS 12
 
 struct Particle {
     float x, y, z;

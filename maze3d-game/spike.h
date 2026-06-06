@@ -6,7 +6,7 @@
 
 #include "cammove.h"
 
-#define MAX_SPIKES 100
+#define MAX_SPIKES 300
 
 typedef struct {
 
@@ -16,18 +16,8 @@ typedef struct {
 
 extern Spike spikes[MAX_SPIKES];
 extern int spikeCount;
-
-void drawSpike(
-    float x,
-    float z
-);
-
+void drawSpike(float x, float z);
 void resetSpikes();
-
-int checkSpikeCollision(
-    float px,
-    float py,
-    float pz
-);
+int checkSpikeCollision(float px, float py, float pz);
 
 #endif
